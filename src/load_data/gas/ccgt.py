@@ -9,16 +9,22 @@ pt_gas_ccgt.set_isEvar({(y,h): True for y in years for h in hours}) # Energy is 
 
 # Economical parameters
 # PIF
-pe_gas_ccgt = prm_eco(r)
+pe_gas_ccgt = prm_eco(years)
+pe_gas_ccgt.set_r(r)
+
 pe_gas_ccgt.set_occ(1.0e6) 
 pe_gas_ccgt.set_ct(3)
 pe_gas_ccgt.set_dt(30)
 
 # PIF
 pe_gas_ccgt.set_fix_om(15)
+pe_gas_ccgt.set_fix_mi(0)
 pe_gas_ccgt.set_var_om(1.5)
 pe_gas_ccgt.set_var_f(100)
 pe_gas_ccgt.set_var_co2(50)
+pe_gas_ccgt.set_var_mi(0)
+
+pe_gas_ccgt.update_costs()
 
 tec_gas_ccgt = Techno('gas','ccgt', pe_gas_ccgt, pt_gas_ccgt)
 

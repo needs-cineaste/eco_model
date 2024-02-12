@@ -4,7 +4,10 @@
 
 nuclear_hist_lifetime = 40 # either 40, 50 or 60
 
+#--------------------------
 # Technical parameters
+#--------------------------
+
 pt_nuclear_hist = prm_tech(years,hours)
 
 # Power trajectory
@@ -25,8 +28,15 @@ pt_nuclear_hist.set_P(copy.deepcopy(P))
 
 pt_nuclear_hist.set_isEvar({(y,h): True for y in years for h in hours})  # Energy is endogeneous
 
+pt_nuclear_hist.set_rup(0.10) # 10%Pn / hour
+pt_nuclear_hist.set_rdo(0.10) # 10%Pn / hour
+
+#--------------------------
 # Economical parameters
-pe_nuclear_hist = prm_eco(r)
+#--------------------------
+
+pe_nuclear_hist = prm_eco(years)
+pe_nuclear_hist.set_r(r)
 # CAPEX is not required because P is exogeneous
 # CAPEX is calculated to get a correct historical fleet cost 
 # [TO REDO]
@@ -36,6 +46,8 @@ pe_nuclear_hist.set_dt(50)
 
 # Fix Costs - Staff, external consumption, Central functions, taxes - CdC 2014 : 120 €/kW
 pe_nuclear_hist.set_fix_om(120e3)
+pe_nuclear_hist.set_fix_mi(0)
+
 pe_nuclear_hist.set_var_om(13)
 # Hansen & Percebois - Energie p 307
 pe_nuclear_hist.set_var_f(3)
@@ -43,6 +55,9 @@ pe_nuclear_hist.set_var_f(3)
 # [TO REDO]
 #pe_nuclear_hist.set_var_co2(cost_co2 * 1e-6 * 1e-6 * 6 * 1e3)
 pe_nuclear_hist.set_var_co2(0)
+pe_nuclear_hist.set_var_mi(0)
+
+pe_nuclear_hist.update_costs()
 
 tec_nuclear_hist = Techno('nuclear','hist', pe_nuclear_hist, pt_nuclear_hist)
 #tec_nuclear_hist.Print()
