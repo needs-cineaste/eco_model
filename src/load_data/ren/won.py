@@ -15,16 +15,22 @@ pt_ren_won.set_LF(copy.deepcopy(dict_won_lf))
 
 # Economical parameters
 # PIF
-pe_ren_won = prm_eco(r)
+pe_ren_won = prm_eco(years)
+pe_ren_won.set_r(r)
+
 pe_ren_won.set_occ(2e6) 
 pe_ren_won.set_ct(1)
 pe_ren_won.set_dt(30)
 
 # PIF
 pe_ren_won.set_fix_om(60)
+pe_ren_won.set_fix_mi(0)
 pe_ren_won.set_var_om(0)
 pe_ren_won.set_var_f(0)
 pe_ren_won.set_var_co2(0)
+pe_ren_won.set_var_mi(0)
+
+pe_ren_won.update_costs()
 
 tec_ren_won = Techno('ren','won', pe_ren_won, pt_ren_won)
 #tec_ren_won.Print()

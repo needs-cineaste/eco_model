@@ -1,19 +1,19 @@
 class prm_eco:
 # --------------------- Constructor ----------------------------------------------------------------------------------    
-    def __init__(self, r, ct=1, dt=1, occ=0, fix_om=0, fix_mi = 0, var_om=0, var_f=0, var_co2=0, var_mi=0):
-        self._r   = r    # Discount rate
-        self._ct  = ct   # Construction Time [y]
-        self._dt  = dt   # Depreciation Time [y]
-        self._occ = occ  # Overnight Construction Cost [M€/MW]
-        self._fix_om  = fix_om  # Fix OM cost [€/MW]
-        self._fix_mi  = fix_mi  # Misc Fix cost [€/MW] => Sum of other fixed costs
-        self._var_om  = var_om   # var OM cost [€/MWh ouput]
-        self._var_f   = var_f    # var fuel cost [€/MWh input]
-        self._var_co2 = var_co2  # var carbon cost [€/MWh i]
-        self._var_mi  = var_mi   # Misc var [€/MWh i] => Sum of other variable costs
-        self._tic  = self.calculate_tic()  # Total Investment Costs [€/MW]
-        self._idc  = self.calculate_idc()  # Interest During Construction [€/MW]
-        self._fix_acap = self.calculate_fix_acap() # Annual CAPEX [€/MW/y]
+    def __init__(self, years):        
+        self._r        = None  # Discount rate
+        self._ct       = None  # Construction Time [y]
+        self._dt       = None  # Depreciation Time [y]
+        self._occ      = None  # Overnight Construction Cost [M€/MW]
+        self._fix_om   = None  # Fix OM cost [€/MW]
+        self._fix_mi   = None  # Misc Fix cost [€/MW] => Sum of other fixed costs
+        self._var_om   = None  # var OM cost [€/MWh ouput]
+        self._var_f    = None  # var fuel cost [€/MWh input]
+        self._var_co2  = None  # var carbon cost [€/MWh i]
+        self._var_mi   = None  # Misc var [€/MWh i] => Sum of other variable costs
+        self._tic      = None  # Total Investment Costs [€/MW]
+        self._idc      = None  # Interest During Construction [€/MW]
+        self._fix_acap = None  # Annual CAPEX [€/MW/y]
 
 # --------------------- End Of Constructor ---------------------------------------------------------------------------    
 
@@ -31,7 +31,13 @@ class prm_eco:
     def calculate_fix_acap(self):
         # Source : Footnote Hansen & Percebois - Energie pXX
         return self._tic * ( (self._r*(1+self._r)**self._dt) / ((1+self._r)**self._dt - 1) ) 
-    
+
+    # Calculate Costs
+    def update_costs(self):
+        self._tic  = self.calculate_tic()
+        self._idc  = self.calculate_idc()
+        self._fix_acap = self.calculate_fix_acap()
+
 # --------------------- GET/SET methods -------------------------------------------------------------------------------
 
     # Get methods
@@ -66,29 +72,12 @@ class prm_eco:
     # Set methods
     def set_r(self, r):
         self._r = r
-        # Recalculate IDC after updating cash_flows
-        self._tic  = self.calculate_tic()
-        self._idc  = self.calculate_idc()
-        self._fix_acap = self.calculate_fix_acap()
-
     def set_ct(self, ct):
         self._ct = ct
-        # Recalculate IDC after updating cash_flows
-        self._tic  = self.calculate_tic()
-        self._idc  = self.calculate_idc()
-        self._fix_acap = self.calculate_fix_acap()
     def set_dt(self, dt):
         self._dt = dt
-        # Recalculate IDC after updating cash_flows
-        self._tic  = self.calculate_tic()
-        self._idc  = self.calculate_idc()
-        self._fix_acap = self.calculate_fix_acap()
     def set_occ(self, occ):
         self._occ = occ
-        # Recalculate IDC after updating cash_flows
-        self._tic  = self.calculate_tic()
-        self._idc  = self.calculate_idc()
-        self._fix_acap = self.calculate_fix_acap()
     def set_fix_om(self, fix_om):
         self._fix_om = fix_om
     def set_fix_mi(self, fix_mi):
@@ -101,7 +90,7 @@ class prm_eco:
         self._var_co2 = var_co2
     def set_var_mi(self, var_mi):
         self._var_mi = var_mi
-
+        
 # --------------------- PRINT methods ---------------------------------------------------------------------------------
 
     def Print(self):

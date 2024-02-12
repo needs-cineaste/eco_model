@@ -1,7 +1,9 @@
 class prm_tech:
 # --------------------- Constructor -----------------------------------------------------------------------------------
-    def __init__(self, years, hours):
+    def __init__(self, years, hours, is_storage = False):
    
+        self._isStorage = is_storage
+        
         self._isFatal = False # Tell if Power is Fatal => E(t) = P * LF(t) with LF(t) exogeneous
         self._isPvar  = {y: True for y in years}  # Tell if Power is endogeneous (variable) or exogeneous
         self._isEvar  = {(y,h): True for y in years for h in hours}  # Tell if Energy is endogeneous (variable) or exogeneous
@@ -23,12 +25,21 @@ class prm_tech:
                           # 0 means not flexible down
                           # 1 means 100%Pn/h
 
+       # Conditionally create additional variables if is_storage is True
+        if self._isStorage:
+            self._level = None  # level of the storage get_level()[y,h]
+            self._Pup   = None
+
+                
+                
 # --------------------- End Of Constructor ----------------------------------------------------------------------------
 
 
 # --------------------- GET/SET methods -------------------------------------------------------------------------------
 
     # Get methods
+    def get_Isstorage(self):
+        return self._isStorage
     def get_P(self):
         return self._P
     def get_E(self):
@@ -53,8 +64,16 @@ class prm_tech:
         return self._rup
     def get_rdo(self):
         return self._rdo
+    # If is Storage
+    def get_level(self):
+        if self._isStorage:
+            return self._level
+        else:
+            print(' !!! isStorage should be set to True !!! ')
     
     # Set methods
+    def set_isStorage(self, is_storage):
+        self._isStorage = is_storage
     def set_P(self, P):
         self._P = P
     def set_E(self, E):
@@ -79,6 +98,13 @@ class prm_tech:
         self._rup = rup
     def set_rdo(self, rdo):
         self._rdo = rdo
+    # If is Storage
+    def set_level(self, lev):
+        if self._isStorage:
+            self._level = lev
+        else:
+            print(' !!! isStorage should be set to True !!! ')
+            
 
 # --------------------- PRINT methods ---------------------------------------------------------------------------------
 
