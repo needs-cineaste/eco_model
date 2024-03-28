@@ -32,13 +32,13 @@ pt_hydro_ror.set_E(copy.deepcopy(E))
 pe_hydro_ror = prm_eco(years)
 pe_hydro_ror.set_r(r)
 
-occ, ct, dt = 0, 1, 50
+occ, ct, dt = 2.5e6, 10, 80
 pe_hydro_ror.calculate_capex(occ,ct,dt,r)
 
 # PIF
-pe_hydro_ror.set_fix_om(10e3)
+pe_hydro_ror.set_fix_om(70e3)
 pe_hydro_ror.set_fix_mi(0)
-pe_hydro_ror.set_var_om(10)
+pe_hydro_ror.set_var_om(0)
 pe_hydro_ror.set_var_f(0)
 pe_hydro_ror.set_var_co2(0)
 pe_hydro_ror.set_var_mi(0)

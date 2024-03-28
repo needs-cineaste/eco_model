@@ -1,15 +1,21 @@
 TO DO 
 
 1. Storage
+    - var_ES peut etre négatif
+    - Pas de contrainte de level => calculé a posteriori pour voir si OK
 
 2. Curtailment
 
 3. Import/Export
-
-4. Replace overnoght cost => CAPEX = one number
+    - FLORE => Exogène
 
 5. Ramping up and down
+    - OK ?
 
-6. Debug all !!
+6. Réduction du nombre de variables 
+    - Nombre de semaines représentatives
+        - Passer de 52 semaines à X (4?, 13?)
+        
+7. Rajouter les facteurs de charge !
 
-7. Quel est le coût du compress pour le storage ??
+8. Quel est le coût du compress pour le storage ??
