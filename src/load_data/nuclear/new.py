@@ -8,7 +8,7 @@
 
 pt_nuclear_new = prm_tech(years,hours)
 pt_nuclear_new.set_isPvar({y: True for y in years}) # Capacity is endogeneous
-pt_nuclear_new.set_isEvar({(y,h): True for y in years for h in hours}) # Energy is endogeneous
+pt_nuclear_new.set_isEvar({(y,w,h): True for y in years for w in weeks for h in hours}) # Energy is endogeneous
 
 #--------------------------
 # Economical parameters

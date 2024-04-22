@@ -15,13 +15,28 @@ P = {y: 10300 for y in years}
 pt_hydro_lake.set_P(copy.deepcopy(P))
 
 # Define lake LF at y and h
-lake_lf = np.loadtxt('../data/formatted/hydro/lake/2019.inc').tolist()
-dict_lake_lf = {(y,h): lake_lf[h-1] for y in years for h in hours}
+#lake_lf = np.loadtxt('../data/formatted/hydro/lake/2019.inc').tolist()
+#dict_lake_lf = {(y,h): lake_lf[h-1] for y in years for h in hours}
+#pt_hydro_lake.set_LF(copy.deepcopy(dict_lake_lf))
+
+# Get 52 weeks of data
+lake_lf = np.loadtxt('../data/formatted/hydro/lake/2019.inc').tolist()[:int(7*24*52)]
+# Build dataframe with matrix form
+lake_lf_reshape = pd.DataFrame(np.array(lake_lf).reshape(-1, 7 * 24))
+# Get list of demand groupby 
+group = np.arange(len(lake_lf_reshape)) // (52 / number_of_mean_weeks)
+# Select a random index from the filtered indices
+lake_lf_random = pd.DataFrame()
+for week in range(number_of_mean_weeks):
+    lake_lf_random = pd.concat([lake_lf_random, pd.DataFrame([lake_lf_reshape.iloc[random.choice(np.where(group == week)[0])]])], ignore_index=True)
+# Iterate over the DataFrame and populate the dictionary demand
+dict_lake_lf = {(y,w,h): lake_lf_random.iloc[w-1,h-1] for y in years for w in weeks for h in hours}
+# Build the dict
 pt_hydro_lake.set_LF(copy.deepcopy(dict_lake_lf))
 
 # Energy
-pt_hydro_lake.set_isEvar({(y,h): False for y in years for h in hours})
-E = {(y,h): P[y] * dict_lake_lf[y,h] for y in years for h in hours}
+pt_hydro_lake.set_isEvar({(y,w,h): False for y in years for w in weeks for h in hours})
+E = {(y,w,h): P[y] * dict_lake_lf[y,w,h] for y in years for w in weeks for h in hours}
 pt_hydro_lake.set_E(copy.deepcopy(E))
 
 #--------------------------

@@ -15,13 +15,28 @@ P = {y: 11000 for y in years}
 pt_hydro_ror.set_P(copy.deepcopy(P))
 
 # Define ROR LF at y and h
-ror_lf = np.loadtxt('../data/formatted/hydro/ror/2019.inc').tolist()
-dict_ror_lf = {(y,h): ror_lf[h-1] for y in years for h in hours}
+#ror_lf = np.loadtxt('../data/formatted/hydro/ror/2019.inc').tolist()
+#dict_ror_lf = {(y,h): ror_lf[h-1] for y in years for h in hours}
+#pt_hydro_ror.set_LF(copy.deepcopy(dict_ror_lf))
+
+# Get 52 weeks of data
+ror_lf = np.loadtxt('../data/formatted/hydro/ror/2019.inc').tolist()[:int(7*24*52)]
+# Build dataframe with matrix form
+ror_lf_reshape = pd.DataFrame(np.array(ror_lf).reshape(-1, 7 * 24))
+# Get list of demand groupby 
+group = np.arange(len(ror_lf_reshape)) // (52 / number_of_mean_weeks)
+# Select a random index from the filtered indices
+ror_lf_random = pd.DataFrame()
+for week in range(number_of_mean_weeks):
+    ror_lf_random = pd.concat([ror_lf_random, pd.DataFrame([ror_lf_reshape.iloc[random.choice(np.where(group == week)[0])]])], ignore_index=True)
+# Iterate over the DataFrame and populate the dictionary demand
+dict_ror_lf = {(y,w,h): ror_lf_random.iloc[w-1,h-1] for y in years for w in weeks for h in hours}
+# Build the dict
 pt_hydro_ror.set_LF(copy.deepcopy(dict_ror_lf))
 
 # Energy
-pt_hydro_ror.set_isEvar({(y,h): False for y in years for h in hours})
-E = {(y,h): P[y] * dict_ror_lf[y,h] for y in years for h in hours}
+pt_hydro_ror.set_isEvar({(y,w,h): False for y in years for w in weeks for h in hours})
+E = {(y,w,h): P[y] * dict_ror_lf[y,w,h] for y in years for w in weeks for h in hours}
 pt_hydro_ror.set_E(copy.deepcopy(E))
 
 #--------------------------

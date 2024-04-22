@@ -8,7 +8,7 @@
 
 pt_gas_ccgt = prm_tech(years,hours)
 pt_gas_ccgt.set_isPvar({y: True for y in years}) # Capacity is endogeneous
-pt_gas_ccgt.set_isEvar({(y,h): True for y in years for h in hours}) # Energy is endogeneous
+pt_gas_ccgt.set_isEvar({(y,w,h): True for y in years for w in weeks for h in hours}) # Energy is endogeneous
 
 #--------------------------
 # Economical parameters

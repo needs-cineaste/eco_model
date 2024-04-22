@@ -24,7 +24,7 @@ if nuclear_hist_lifetime == 60:
 
 pt_nuclear_hist.set_P(copy.deepcopy(P))
 
-pt_nuclear_hist.set_isEvar({(y,h): True for y in years for h in hours})  # Energy is endogeneous
+pt_nuclear_hist.set_isEvar({(y,w,h): True for y in years for w in weeks for h in hours})  # Energy is endogeneous
 
 #--------------------------
 # Economical parameters
