@@ -8,10 +8,12 @@ class prm_storage:
         self._levelstart = None # level of the storage get_level()[y,h] [MWh]
         self._levelmax = None   # level max [MWh]
         self._levelmin = None   # level min [MWh]
-        self._efficiency = None
+        self._efficiency_discharge = None
+        self._efficiency_charge = None
+        self.loss=None #pourcetage de perte à l'année
 
-        # Add dynamics variables ...
-                
+       # Add dynamics variables ...
+
 # --------------------- End Of Constructor ----------------------------------------------------------------------------
 
 # --------------------- GET/SET methods -------------------------------------------------------------------------------
@@ -31,13 +33,13 @@ class prm_storage:
         return self._levelstart
     def get_efficiency(self):
         return self._efficiency
-                        
+
     # Set methods
     def set_mode(self, mode):
         self._mode = mode
     def set_EC(self, EC):
         self._EC = EC
-    def set_level(self, lev):
+    def set_level(self, llev):
         self._level = lev
     def set_level_max(self, levmax):
         self._levelmax = levmax
@@ -45,6 +47,7 @@ class prm_storage:
         self._levelmin = levmin
     def set_level_start(self, levstart):
         self._levelstart = levstart
-    def set_efficiency(self, eff):
+    def set_efficiency_discharge(self, eff):
         self._efficiency = eff
-            
+    def set_efficiency_charge(self, eff):
+        self._efficiency = eff
