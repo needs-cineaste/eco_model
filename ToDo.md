@@ -1,5 +1,9 @@
 TO DO 
 
+0. Hydraulique Lake 
+
+    - Faire du vrai exogène => Pas de random pour le choix des semaiens type mais moyennes 
+
 1. Storage
     - var_ES peut etre négatif
     - Pas de contrainte de level => calculé a posteriori pour voir si OK

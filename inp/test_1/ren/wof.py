@@ -2,6 +2,13 @@
 # REN - Wind Off Shore
 ############################
 
+if len(sys.argv) > 1:
+    arg = sys.argv[1]
+    print(arg)
+else:
+    print("No argument provided for won.py... Please provide a path.")
+    sys.exit()
+
 #--------------------------
 # Technical parameters
 #--------------------------
@@ -16,18 +23,30 @@ pt_ren_wof.set_isEvar({(y,w,h): True for y in years for w in weeks for h in hour
 #pt_ren_wof.set_LF(copy.deepcopy(dict_wof_lf))
 
 # Get 52 weeks of data
-wof_lf = np.loadtxt('../../../data/formatted/ren/wind/offshore/2019.inc').tolist()[:int(7*24*52)]
+wof_lf = np.loadtxt(arg).tolist()[:int(7*24*52)]
 # Build dataframe with matrix form
 wof_lf_reshape = pd.DataFrame(np.array(wof_lf).reshape(-1, 7 * 24))
-# Get list of demand groupby 
-group = np.arange(len(wof_lf_reshape)) // (52 / number_of_mean_weeks)
-# Select a random index from the filtered indices
-wof_lf_random = pd.DataFrame()
-for week in range(number_of_mean_weeks):
-    wof_lf_random = pd.concat([wof_lf_random, pd.DataFrame([wof_lf_reshape.iloc[random.choice(np.where(group == week)[0])]])], ignore_index=True)
-# Iterate over the DataFrame and populate the dictionary demand
-dict_wof_lf = {(y,w,h): wof_lf_random.iloc[w-1,h-1] for y in years for w in weeks for h in hours}
-# Build the dict
+
+#--------------------------
+# Weeks managment
+#--------------------------
+
+if profil_weeks == 'average' or  profil_weeks == "M4" :
+    # Select a random index from the filtered indices
+    wof_lf_random = pd.DataFrame()
+    dict_wof_lf={}
+    for y in years :
+        wof_lf_random = pd.DataFrame()
+        for week in range(number_of_mean_weeks):
+            wof_lf_random = pd.concat([wof_lf_random, pd.DataFrame([wof_lf_reshape.iloc[random.choice(np.where(group == week)[0])]])], ignore_index=True)
+        # Iterate over the DataFrame and populate the dictionary demand
+        dict_wof_lf_local = {(y,w,h): wof_lf_random.iloc[w-1,h-1]for w in weeks for h in hours}
+        dict_wof_lf={**dict_wof_lf,**dict_wof_lf_local}
+
+elif profil_weeks == 'maxmin':
+    print('Not yet implemented ... EXIT(1)')
+    exit()
+
 pt_ren_wof.set_LF(copy.deepcopy(dict_wof_lf))
 
 #--------------------------

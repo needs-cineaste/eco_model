@@ -2,6 +2,13 @@
 # REN - PV
 ############################
 
+if len(sys.argv) > 1:
+    arg = sys.argv[1]
+    print(arg)    
+else:
+    print("No argument provided for won.py... Please provide a path.")
+    sys.exit()
+
 #--------------------------
 # Technical parameters
 #--------------------------
@@ -16,17 +23,30 @@ pt_ren_pv.set_isEvar({(y,w,h): True for y in years for w in weeks for h in hours
 #pt_ren_pv.set_LF(copy.deepcopy(dict_pv_lf))
 
 # Get 52 weeks of data
-pv_lf = np.loadtxt('../../../data/formatted/ren/solar/pv/2019.inc').tolist()[:int(7*24*52)]
+pv_lf = np.loadtxt(arg).tolist()[:int(7*24*52)]
 # Build dataframe with matrix form
 pv_lf_reshape = pd.DataFrame(np.array(pv_lf).reshape(-1, 7 * 24))
-# Get list of demand groupby 
-group = np.arange(len(pv_lf_reshape)) // (52 / number_of_mean_weeks)
-# Select a random index from the filtered indices
-pv_lf_random = pd.DataFrame()
-for week in range(number_of_mean_weeks):
-    pv_lf_random = pd.concat([pv_lf_random, pd.DataFrame([pv_lf_reshape.iloc[random.choice(np.where(group == week)[0])]])], ignore_index=True)
-# Iterate over the DataFrame and populate the dictionary demand
-dict_pv_lf = {(y,w,h): pv_lf_random.iloc[w-1,h-1] for y in years for w in weeks for h in hours}
+
+#--------------------------
+# Weeks managment
+#--------------------------
+
+if profil_weeks == 'average' or  profil_weeks == "M4" :
+    # Select a random index from the filtered indices
+    pv_lf_random = pd.DataFrame()
+    dict_pv_lf={}
+    for y in years :
+        pv_lf_random = pd.DataFrame()
+        for week in range(number_of_mean_weeks):
+            pv_lf_random = pd.concat([pv_lf_random, pd.DataFrame([pv_lf_reshape.iloc[random.choice(np.where(group == week)[0])]])], ignore_index=True)
+        # Iterate over the DataFrame and populate the dictionary demand
+        dict_pv_lf_local = {(y,w,h): pv_lf_random.iloc[w-1,h-1]for w in weeks for h in hours}
+        dict_pv_lf={**dict_pv_lf,**dict_pv_lf_local}
+
+elif profil_weeks == 'maxmin':
+    print('Not yet implemented ... EXIT(1)')
+    exit()
+
 # Build the dict
 pt_ren_pv.set_LF(copy.deepcopy(dict_pv_lf))
 

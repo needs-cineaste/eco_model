@@ -3,7 +3,7 @@ class prm_tech:
     def __init__(self, years, hours):
    
         self._isPvar  = {y: True for y in years}  # Tell if Power is endogeneous (variable) or exogeneous
-        self._isEvar  = {(y,h): True for y in years for h in hours}  # Tell if Energy is endogeneous (variable) or exogeneous
+        self._isEvar  = {(y,w,h): True for y in years for w in weeks for h in hours}  # Tell if Energy is endogeneous (variable) or exogeneous
    
         self._P  = None   # Capacity installed P[y] [MW]  
         self._E  = None   # Energy produced E[y,h]
