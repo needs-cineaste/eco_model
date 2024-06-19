@@ -6,7 +6,7 @@
 # Technical parameters
 #--------------------------
 
-pt_nuclear_hist = prm_tech(years,hours)
+pt_nuclear_hist = prm_tech()
 
 # Power trajectory
 pt_nuclear_hist.set_isPvar({y: False for y in years}) # Capacity is exogeneous
@@ -30,29 +30,39 @@ pt_nuclear_hist.set_isEvar({(y,w,h): True for y in years for w in weeks for h in
 # Economical parameters
 #--------------------------
 
-pe_nuclear_hist = prm_eco(years)
+pe_nuclear_hist = prm_eco()
 pe_nuclear_hist.set_r(r)
-# CAPEX is not required because P is exogeneous
-# CAPEX is calculated to get a correct historical fleet cost 
-# [TO REDO and to adapt according to nuclear_hist_lifetime]
-pe_nuclear_hist.set_fix_cap(150e3)
 
-#pe_nuclear_hist.set_occ(0.20 * 2e6) # Tell that 80% is deprecated - 2Md / MW -> To change !
-#pe_nuclear_hist.set_ct(10)
-#pe_nuclear_hist.set_dt(50)
+lt = nuclear_hist_lifetime
+ct = 5 # construction time
+pe_nuclear_hist.set_lt(lt)
 
-# Fix Costs - Staff, external consumption, Central functions, taxes - CdC 2014 : 120 €/kW
-pe_nuclear_hist.set_fix_om(120e3)
-pe_nuclear_hist.set_fix_mi(0)
-
-pe_nuclear_hist.set_var_om(13)
-# Hansen & Percebois - Energie p 307
-pe_nuclear_hist.set_var_f(3)
-# ADEME 6g/kWh - EDF 4g/kWh
-# [TO REDO]
-#pe_nuclear_hist.set_var_co2(cost_co2 * 1e-6 * 1e-6 * 6 * 1e3)
-pe_nuclear_hist.set_var_co2(0)
-pe_nuclear_hist.set_var_mi(0)
+#
+# !! HERE, The Grand Carénage (refurbishment) is not taken into account !!
+#
+# FIX CAP - Here Null
+# pe_nuclear_hist.calculate_capex_dict(None,ct,lt,pe_nuclear_hist.get_r())
+# FIX DEP
+data_fix_dep = 66e3 # €/MW/an -> Loyer économique => 186 (Amort. CAPEX RTE) - data_fix_om
+pe_nuclear_hist.set_fix_dep(data_fix_dep)
+# FIX OM
+data_fix_om   =  120e3  # €/MW/an -> ISTE
+pe_nuclear_hist.set_fix_om(data_fix_om)
+# FIX MI
+data_fix_mi   = None # €/MW/an
+pe_nuclear_hist.set_fix_mi(data_fix_mi)
+# VAR OM
+data_var_om   = None # €/MWh -
+pe_nuclear_hist.set_var_om(data_var_om)
+# VAR Fuel
+data_var_f    = 8 # €/MWh - ISTE
+pe_nuclear_hist.set_var_f(data_var_f)
+# VAR CO2
+data_var_co2 = None
+pe_nuclear_hist.set_var_co2(data_var_co2)
+# VAR MI
+data_var_mi   = None
+pe_nuclear_hist.set_var_mi(data_var_mi)
 
 #--------------------------
 # Specific parameters for Dispatchable

@@ -4,7 +4,6 @@
 
 if len(sys.argv) > 1:
     arg = sys.argv[1]
-    print(arg)
 else:
     print("No argument provided for won.py... Please provide a path.")
     sys.exit()
@@ -13,7 +12,7 @@ else:
 # Technical parameters
 #--------------------------
 
-pt_hydro_ror = prm_tech(years,hours)
+pt_hydro_ror = prm_tech()
 
 pt_hydro_ror.set_isPvar({y: False for y in years})
 
@@ -62,21 +61,38 @@ pt_hydro_ror.set_E(copy.deepcopy(E))
 # Economical parameters
 #--------------------------
 
-# PIF
-pe_hydro_ror = prm_eco(years)
+#Source CINEASTE/data/source/annexes_rappor_2050_RTE/Chapitre 11, p 938 - hydro existant
+
+pe_hydro_ror = prm_eco()
 pe_hydro_ror.set_r(r)
+lt = None
+ct = None # construction time
+pe_hydro_ror.set_lt(lt)
 
-occ, ct, dt = 2.5e6, 10, 80
-pe_hydro_ror.calculate_capex(occ,ct,dt,r)
-
-# PIF
-pe_hydro_ror.set_fix_om(70e3)
-pe_hydro_ror.set_fix_mi(0)
-pe_hydro_ror.set_var_om(0)
-pe_hydro_ror.set_var_f(0)
-pe_hydro_ror.set_var_co2(0)
-pe_hydro_ror.set_var_mi(0)
-
+# FIX CAP
+# data_fix_cap = None # €/MW/an
+# pe_hydro_ror.set_fix_cap(data_fix_cap)
+# Tot RTE = 121 => Here, arbitrary 1/2 1/2 
+data_fix_dep = 121*0.5e3 # €/MW/an
+pe_hydro_ror.set_fix_dep(data_fix_dep)
+# FIX OM
+data_fix_om   =  121*0.5e3  # €/MW/an
+pe_hydro_ror.set_fix_om(data_fix_om)
+# FIX MI
+data_fix_mi   = None # €/MW/an
+pe_hydro_ror.set_fix_mi(data_fix_mi)
+# VAR OM
+data_var_om   = None # €/MWh -
+pe_hydro_ror.set_var_om(data_var_om)
+# VAR Fuel
+data_var_f    = None # €/MWh -
+pe_hydro_ror.set_var_f(data_var_f)
+# VAR CO2
+data_var_co2 = None
+pe_hydro_ror.set_var_co2(data_var_co2)
+# VAR MI
+data_var_mi   = None
+pe_hydro_ror.set_var_mi(data_var_mi)
 #--------------------------
 # Specific parameters for Fatal
 #--------------------------

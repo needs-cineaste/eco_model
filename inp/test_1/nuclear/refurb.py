@@ -3,7 +3,7 @@
 ############################
 
 # Technical parameters
-pt_nuclear_ref = prm_tech(years,hours)
+pt_nuclear_ref = prm_tech(years,weeks,hours)
 pt_nuclear_ref.set_isPvar(True) # Capacity is exogeneous
 pt_nuclear_ref.set_isEvar(True)  # Energy is endogeneous
 pt_nuclear_ref.set_P(61.4e3)

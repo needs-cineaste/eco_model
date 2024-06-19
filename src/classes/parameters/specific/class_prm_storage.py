@@ -31,8 +31,10 @@ class prm_storage:
         return self._levelmin
     def get_level_start(self):
         return self._levelstart
-    def get_efficiency(self):
-        return self._efficiency
+    def get_efficiency_charge(self):
+        return self._efficiency_charge
+    def get_efficiency_discharge(self):
+        return self._efficiency_discharge
 
     # Set methods
     def set_mode(self, mode):
@@ -47,7 +49,8 @@ class prm_storage:
         self._levelmin = levmin
     def set_level_start(self, levstart):
         self._levelstart = levstart
-    def set_efficiency_discharge(self, eff):
-        self._efficiency = eff
     def set_efficiency_charge(self, eff):
-        self._efficiency = eff
+        self._efficiency_charge = eff
+    def set_efficiency_discharge(self, eff):
+        self._efficiency_discharge = eff
+        

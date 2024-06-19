@@ -23,3 +23,5 @@ TO DO
 7. Rajouter les facteurs de charge !
 
 8. Quel est le coût du compress pour le storage ??
+
+9. Verifier l'algo reconstitution cout fix capex via le nucléaire historique
