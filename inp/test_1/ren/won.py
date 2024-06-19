@@ -4,7 +4,6 @@
 
 if len(sys.argv) > 1:
     arg = sys.argv[1]
-    print(arg)    
 else:
     print("No argument provided for won.py... Please provide a path.")
     sys.exit()
@@ -13,16 +12,13 @@ else:
 # Technical parameters
 #--------------------------
 
-pt_ren_won = prm_tech(years,hours)
+pt_ren_won = prm_tech()
 pt_ren_won.set_isPvar({y: True for y in years})
 pt_ren_won.set_isEvar({(y,w,h): True for y in years for w in weeks for h in hours})
 
-# Define won LF at y and h
-#won_lf = np.loadtxt('../data/formatted/ren/wind/onshore/2019.inc').tolist()
-#dict_won_lf = {(y, h): won_lf[h-1] for y in years for h in hours}
-#pt_ren_won.set_LF(copy.deepcopy(dict_won_lf))
-
+#--------------------------
 # Get 52 weeks of data
+#--------------------------
 won_lf = np.loadtxt(arg).tolist()[:int(7*24*52)]
 # Build dataframe with matrix form
 won_lf_reshape = pd.DataFrame(np.array(won_lf).reshape(-1, 7 * 24))
@@ -49,28 +45,68 @@ elif profil_weeks == 'maxmin':
 pt_ren_won.set_LF(copy.deepcopy(dict_won_lf))
 
 #--------------------------
-# Economical parameters
+# Economical parameters - Wind Turbine - Onshore
 #--------------------------
-# PIF
-pe_ren_won = prm_eco(years)
+
+#Source CINEASTE/data/source/annexes_rappor_2050_RTE/Chapitre 11, p 937 - Eolien offshore posé - hypothèse : Référence
+pe_ren_won = prm_eco()
 pe_ren_won.set_r(r)
+lt = 30
+ct = 1 # construction time
+pe_ren_won.set_lt(lt)
 
-occ, ct, dt = 2e6, 1, 30
-pe_ren_won.calculate_capex(occ,ct,dt,r) # 383e3
-
-# PIF
-pe_ren_won.set_fix_om(60)
-pe_ren_won.set_fix_mi(0)
-pe_ren_won.set_var_om(0)
-pe_ren_won.set_var_f(0)
-pe_ren_won.set_var_co2(0)
-pe_ren_won.set_var_mi(0)
+# FIX CAPEX
+data_occ_years = [2020,2030,2040,2050,2060] # Available data for data
+data_occ       = [1300e3, 1200e3 , 1050e3, 900e3, 900e3] # CAPEX en €/MW sans intercalaire
+pe_ren_won.calculate_capex_dict(data_occ,ct,lt,pe_ren_won.get_r(),data_occ_years)
+# FIX DEP
+data_fix_dep = None
+pe_ren_won.set_fix_dep(data_fix_dep)
+# FIX OM
+data_fix_om_years = [2020,2030,2040,2050,2060] # Available data for data
+data_fix_om   = [40e3, 35e3, 30e3, 25e3, 25e3] # €/MW/an
+pe_ren_won.set_fix_om(data_fix_om,data_fix_om_years)
+# FIX MI
+data_fix_mi   = None # €/MW/an
+pe_ren_won.set_fix_mi(data_fix_mi)
+# VAR OM
+data_var_om   = None # €/MWh -
+pe_ren_won.set_var_om(data_var_om)
+# VAR Fuel
+data_var_f    = None # €/MWh -
+pe_ren_won.set_var_f(data_var_f)
+# VAR CO2
+data_var_co2 = None
+pe_ren_won.set_var_co2(data_var_co2)
+# VAR MI
+data_var_mi   = None
+pe_ren_won.set_var_mi(data_var_mi)
 
 #--------------------------
 # Specific parameters for Fatal
 #--------------------------
 
 ps_ren_won = prm_fatal()
+
+#--------------------------
+# Historical Capacities
+#--------------------------
+
+# Investment defined until 2018
+hist_data_inv = {y: 0.0e3 for y in range(years[0]-60,years[0])}
+# Decommissioning defined until 2018
+hist_data_dec = {y: 0.0e3 for y in range(years[0] - 60, years[0])}
+# Historical needed Capacity
+hist_data_capa = {}
+hist_data_capa[2019] = 16e3
+
+# Set data
+pt_ren_won.set_historic_data('CAPA',hist_data_capa)
+pt_ren_won.set_historic_data('INV',hist_data_inv)
+pt_ren_won.set_historic_data('DEC',hist_data_dec)
+
+# Maximum investment
+pt_ren_won.set_InvMax({y: 100e3 for y in years})
 
 #--------------------------
 # Final object

@@ -6,7 +6,7 @@
 # Technical parameters  CHARGE
 #--------------------------
 
-pt_hydro_step_c = prm_tech(years,hours)
+pt_hydro_step_c = prm_tech()
 
 pt_hydro_step_c.set_isPvar({y: False for y in years})
 
@@ -14,29 +14,53 @@ P = {y: 5000 for y in years} # 5 GW
 pt_hydro_step_c.set_P(copy.deepcopy(P))
 
 #--------------------------
-# Economical parameters   CHARGE
-#------------------------- -
+# Economical parameters - STEP Charge
+#--------------------------
 
-pe_hydro_step_c = prm_eco(years)
+#Source CINEASTE/data/source/annexes_rappor_2050_RTE/Chapitre 11, p 939 - STEP -
+
+pe_hydro_step_c = prm_eco()
 pe_hydro_step_c.set_r(r)
-# PIF
+lt = 50
+ct = 1 # construction time
 
-occ, ct, dt = 5e6, 10, 100
-pe_hydro_step_c.calculate_capex(occ,ct,dt,r)
+pe_hydro_step_c.set_lt(lt)
 
-# PIF
-pe_hydro_step_c.set_fix_om(10e3)
-pe_hydro_step_c.set_fix_mi(0)
-pe_hydro_step_c.set_var_om(-10)
-pe_hydro_step_c.set_var_f(0)
-pe_hydro_step_c.set_var_co2(0)
-pe_hydro_step_c.set_var_mi(0)
 
+# FIX
+#data_occ_years = None # Available data for data
+#data_occ       = 500e3 # CAPEX en €/MW sans intercalaire
+#pe_hydro_step_c.calculate_capex_dict(data_occ,ct,lt,pe_ren_wof.get_r(),data_occ_years)
+
+# FIX CAP
+# data_fix_cap = None # €/MW/an
+# pe_hydro_step_c.set_fix_cap(data_fix_cap)
+# FIX DEP
+data_fix_dep = 29e3 # €/MW/an -> RTE : CAPEX = 1000 => /2 because charge discharge => 29e3 annual (!)
+pe_hydro_step_c.set_fix_dep(data_fix_dep)
+# FIX OM
+data_fix_om   =  7.5e3  # €/MW/an
+pe_hydro_step_c.set_fix_om(data_fix_om)
+# FIX MI
+data_fix_mi   = None # €/MW/an
+pe_hydro_step_c.set_fix_mi(data_fix_mi)
+# VAR OM
+data_var_om   = None # €/MWh -
+pe_hydro_step_c.set_var_om(data_var_om)
+# VAR Fuel
+data_var_f    = None # €/MWh -
+pe_hydro_step_c.set_var_f(data_var_f)
+# VAR CO2
+data_var_co2 = None
+pe_hydro_step_c.set_var_co2(data_var_co2)
+# VAR MI
+data_var_mi   = None
+pe_hydro_step_c.set_var_mi(data_var_mi)
 
 #--------------------------
 # Technical parameters  DISCHARGE
 #--------------------------
-pt_hydro_step_d = prm_tech(years,hours)
+pt_hydro_step_d = prm_tech()
 
 pt_hydro_step_d.set_isPvar({y: False for y in years})
 
@@ -45,23 +69,46 @@ pt_hydro_step_d.set_P(copy.deepcopy(P))
 
 
 #--------------------------
-# Economical parameters   DISCHARGE
-#------------------------- -
+# Economical parameters - STEP discharge
+#--------------------------
 
-pe_hydro_step_d = prm_eco(years)
+#Source CINEASTE/data/source/annexes_rappor_2050_RTE/Chapitre 11, p 939 - STEP -
+
+pe_hydro_step_d = prm_eco()
 pe_hydro_step_d.set_r(r)
-# PIF
+lt = 50
+ct = 1 # construction time
+pe_hydro_step_d.set_lt(lt)
 
-occ, ct, dt = 5e6, 10, 100
-pe_hydro_step_d.calculate_capex(occ,ct,dt,r)
+# FIX
+#data_occ_years = None # Available data for data
+#data_occ       = 500e3 # CAPEX en €/MW sans intercalaire
+#pe_hydro_step_d.calculate_capex_dict(data_occ,ct,lt,pe_ren_wof.get_r(),data_occ_years)
 
-# PIF
-pe_hydro_step_d.set_fix_om(10e3)
-pe_hydro_step_d.set_fix_mi(0)
-pe_hydro_step_d.set_var_om(10)
-pe_hydro_step_d.set_var_f(0)
-pe_hydro_step_d.set_var_co2(0)
-pe_hydro_step_d.set_var_mi(0)
+# FIX CAP
+# data_fix_cap = None # €/MW/an
+# pe_hydro_step_d.set_fix_cap(data_fix_cap)
+# FIX DEP
+data_fix_dep = 29e3 # €/MW/an -> RTE : CAPEX = 1000 => /2 because charge discharge => 29e3 annual (!)
+pe_hydro_step_d.set_fix_dep(data_fix_dep)
+# FIX OM
+data_fix_om   =  7.5e3  # €/MW/an
+pe_hydro_step_d.set_fix_om(data_fix_om)
+# FIX MI
+data_fix_mi   = None # €/MW/an
+pe_hydro_step_d.set_fix_mi(data_fix_mi)
+# VAR OM
+data_var_om   = None # €/MWh -
+pe_hydro_step_d.set_var_om(data_var_om)
+# VAR Fuel
+data_var_f    = None # €/MWh -
+pe_hydro_step_d.set_var_f(data_var_f)
+# VAR CO2
+data_var_co2 = None
+pe_hydro_step_d.set_var_co2(data_var_co2)
+# VAR MI
+data_var_mi   = None
+pe_hydro_step_d.set_var_mi(data_var_mi)
 
 #--------------------------
 # Specific parameters for Storage
