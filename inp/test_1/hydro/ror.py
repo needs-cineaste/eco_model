@@ -16,8 +16,8 @@ pt_hydro_ror = prm_tech()
 
 pt_hydro_ror.set_isPvar({y: False for y in years})
 
-# Power
-P = {y: 11000 for y in years}
+# Source :  Panorama des energies renouvelables dec 2023 - ORE - ENEDIS - RTE - SER
+P = {y: 6678 for y in years}
 pt_hydro_ror.set_P(copy.deepcopy(P))
 
 # Define ROR LF at y and h

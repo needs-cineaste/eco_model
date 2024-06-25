@@ -10,7 +10,7 @@ pt_hydro_step_c = prm_tech()
 
 pt_hydro_step_c.set_isPvar({y: False for y in years})
 
-P = {y: 5000 for y in years} # 5 GW 
+P = {y: 5394 for y in years} # 5 GW 
 pt_hydro_step_c.set_P(copy.deepcopy(P))
 
 #--------------------------
@@ -64,7 +64,7 @@ pt_hydro_step_d = prm_tech()
 
 pt_hydro_step_d.set_isPvar({y: False for y in years})
 
-P = {y: 5000 for y in years} # 5 GW 
+P = {y: 5394 for y in years} # 5 GW 
 pt_hydro_step_d.set_P(copy.deepcopy(P))
 
 

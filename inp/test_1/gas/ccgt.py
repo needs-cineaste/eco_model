@@ -47,8 +47,8 @@ pe_gas_ccgt.set_var_om(data_var_om)
 data_var_f    = 50 # €/MWh - Data to adjust !  Reference to find for the long term gas price ...
 pe_gas_ccgt.set_var_f(data_var_f)
 # VAR CO2
-data_co2_year = [2020,2050]
-data_var_co2  = [50 * co2*1e-6*1e3,1000 * co2*1e-6*1e3] # €/MWh
+data_co2_year = [2000,2020,2050]
+data_var_co2  = [0,cost_co2_2020*co2*1e-6*1e3,cost_co2_2050*co2*1e-6*1e3] # €/MWh
 pe_gas_ccgt.set_var_co2(data_var_co2, data_co2_year)
 # VAR MI
 data_var_mi   = None # €/MWh
@@ -65,7 +65,7 @@ ps_gas_ccgt = prm_dispatchable()
 #--------------------------
 
 # Investment defined until 2018
-hist_data_inv = {y: 0.2e3 for y in range(years[0]-60,years[0])}
+hist_data_inv = {y: 0 for y in range(years[0]-60,years[0])}
 # Decommissioning defined until 2018
 hist_data_dec = {y: 0.0 for y in range(years[0] - 60, years[0])}
 for y in range(years[0] - 60, years[0]):
@@ -73,7 +73,9 @@ for y in range(years[0] - 60, years[0]):
         hist_data_dec[y] = 0.1e3
 # Historical needed Capacity
 hist_data_capa = {}
-hist_data_capa[2019] = 18.54e3
+#source : https://fr.wikipedia.org/wiki/Centrale_thermique_de_Bouchain + https://assets.rte-france.com/analyse-et-donnees/2023-11/2023-10-16-chapitre3-production-stockage-electricite.pdf (P46)
+hist_data_inv.update({2005 : 790 , 2006 : 0 , 2007 : 0 , 2008 : 0 ,2009 : 412 , 2010 : 860 + 424 + 489 , 2011 : 435 + 408 + 430 , 2012 : 465 , 2013 : 413 + 465 , 2014 : 0 , 2015 : 0 , 2016 : 605 , 2022 : 446 , 2023 : 0 })
+hist_data_capa.update({2019 : 6196 , 2020 : 6196 , 2021: 6196 , 2022 : 6196, 2023 : 30000, 2024 : 30000}) # 6642
 
 # Set data
 pt_gas_ccgt.set_historic_data('CAPA',hist_data_capa)
@@ -81,7 +83,7 @@ pt_gas_ccgt.set_historic_data('INV',hist_data_inv)
 pt_gas_ccgt.set_historic_data('DEC',hist_data_dec)
 
 # Maximum investment
-pt_gas_ccgt.set_InvMax({y: 100e3 for y in years})
+pt_gas_ccgt.set_InvMax({y: 2e3 for y in range(years.start-1, years.stop-1)})
 
 #--------------------------
 # Final object

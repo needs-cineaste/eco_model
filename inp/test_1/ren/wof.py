@@ -95,12 +95,15 @@ ps_ren_wof = prm_fatal()
 #--------------------------
 
 # Investment defined until 2018
-hist_data_inv = {y: 0.0e3 for y in range(years[0]-60,years[0])}
+hist_data_inv = {y: 0.0e3 for y in range(start_world, start_of_scenario)}
 # Decommissioning defined until 2018
-hist_data_dec = {y: 0.0e3 for y in range(years[0] - 60, years[0])}
+hist_data_dec = {y: 0.0e3 for y in range(start_world, start_of_scenario)}
 # Historical needed Capacity
 hist_data_capa = {}
-hist_data_capa[2019] = 0.0e3
+#Source : CINEASTE/data/source/Eolien_Nouveaux_raccordements - reférence : SDES
+hist_data_inv.update({2011: 0, 2012: 0, 2013: 0, 2014: 0, 2015: 0, 2016: 0, 2017: 0, 2018: 4, 2019: 0, 2020: 0, 2021: 0, 2022: 480, 2023: 993}) # En MW
+# Source CINEASTE/data/source/Eolien_Evolution_puissance_inst - reférence : SDES
+hist_data_capa.update({2009: 0, 2010: 0, 2011: 0, 2012: 0, 2013: 0, 2014: 0, 2015: 0, 2016: 0, 2017: 0, 2018: 4, 2019: 4, 2020: 4, 2021: 4, 2022: 4, 2023: 484, 2024: 1477}) # En MW
 
 # Set data
 pt_ren_wof.set_historic_data('CAPA',hist_data_capa)
@@ -108,7 +111,7 @@ pt_ren_wof.set_historic_data('INV',hist_data_inv)
 pt_ren_wof.set_historic_data('DEC',hist_data_dec)
 
 # Maximum investment
-pt_ren_wof.set_InvMax({y: 100e3 for y in years})
+pt_ren_wof.set_InvMax({y: 100e3 for y in range(years.start-1, years.stop-1)})
 
 #--------------------------
 # Final object

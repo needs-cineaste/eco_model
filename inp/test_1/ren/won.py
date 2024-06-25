@@ -92,13 +92,19 @@ ps_ren_won = prm_fatal()
 # Historical Capacities
 #--------------------------
 
-# Investment defined until 2018
-hist_data_inv = {y: 0.0e3 for y in range(years[0]-60,years[0])}
+#--------------------------
+# Historical Capacities
+#--------------------------
+#Initialisation avec des 0
+hist_data_inv = {y: 0.0 for y in range(start_world, start_of_scenario)}
 # Decommissioning defined until 2018
-hist_data_dec = {y: 0.0e3 for y in range(years[0] - 60, years[0])}
+hist_data_dec = {y: 0.0 for y in range(start_world, start_of_scenario)}
 # Historical needed Capacity
 hist_data_capa = {}
-hist_data_capa[2019] = 16e3
+# Source Chiffres clés des énergie renouvelables  2023 - SDES - https://www.statistiques.developpement-durable.gouv.fr/edition-numerique/chiffres-cles-energies-renouvelables-2023/
+hist_data_inv.update({2000: 41, 2001: 20, 2002: 83, 2003: 92, 2004: 155, 2005: 495, 2006: 836, 2007: 784, 2008: 1090, 2009: 1169, 2010: 1199, 2011: 832, 2012: 774, 2013: 585, 2014: 1178, 2015: 997, 2016: 1474, 2017: 1772, 2018: 1612, 2019: 1424, 2020: 1177, 2021: 1309, 2022: 1478}) # En MW
+# Source CINEASTE/data/source/Eolien_Evolution_puissance_inst - reférence : SDES
+hist_data_capa.update({2009: 3495, 2010: 4664, 2011: 5903, 2012: 6756, 2013: 7560, 2014: 8145, 2015: 9280, 2016: 10479, 2017: 11957, 2018: 13746, 2019: 15413, 2020: 16765, 2021: 18006, 2022: 19251, 2023: 20772, 2024: 21899}) # En MW
 
 # Set data
 pt_ren_won.set_historic_data('CAPA',hist_data_capa)
@@ -106,7 +112,7 @@ pt_ren_won.set_historic_data('INV',hist_data_inv)
 pt_ren_won.set_historic_data('DEC',hist_data_dec)
 
 # Maximum investment
-pt_ren_won.set_InvMax({y: 100e3 for y in years})
+pt_ren_won.set_InvMax({y: 100e3 for y in range(years.start-1, years.stop-1)})
 
 #--------------------------
 # Final object
