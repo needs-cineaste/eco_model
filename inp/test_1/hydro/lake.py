@@ -16,8 +16,8 @@ pt_hydro_lake = prm_tech()
 
 pt_hydro_lake.set_isPvar({y: False for y in years})
 
-# Power
-P = {y: 10300 for y in years}
+#Source :  Panorama des energies renouvelables dec 2023 - ORE - ENEDIS - RTE - SER
+P = {y: 13610 for y in years}
 pt_hydro_lake.set_P(copy.deepcopy(P))
 
 # Define lake LF at y and h

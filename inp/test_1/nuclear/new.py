@@ -63,12 +63,12 @@ ps_nuclear_new.set_rdo(0.10) # 10%Pn / hour
 #--------------------------
 
 # Investment defined until 2018
-hist_data_inv = {y: 0.0 for y in range(years[0]-60,years[0])}
+hist_data_inv = {y: 0.0 for y in range(start_world, start_of_scenario)}
 # Decommissioning defined until 2018
-hist_data_dec = {y: 0.0 for y in range(years[0] - 60, years[0])}
+hist_data_dec = {y: 0.0 for y in range(start_world, start_of_scenario)}
 # Historical needed Capacity
 hist_data_capa = {}
-hist_data_capa[2019] = 0.0e3
+hist_data_capa[start_of_scenario-1] = 0.0e3
 
 # Set data
 pt_nuclear_new.set_historic_data('CAPA',hist_data_capa)
@@ -76,7 +76,7 @@ pt_nuclear_new.set_historic_data('INV',hist_data_inv)
 pt_nuclear_new.set_historic_data('DEC',hist_data_dec)
 
 # Maximum investment
-pt_nuclear_new.set_InvMax({y: 1e3 for y in years})
+pt_nuclear_new.set_InvMax({y: 1e3 for y in range(years.start-1, years.stop-1)})
 
 
 #--------------------------

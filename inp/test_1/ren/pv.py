@@ -95,13 +95,19 @@ ps_ren_pv = prm_fatal()
 # Historical Capacities
 #--------------------------
 
+#--------------------------
+# Historical Capacities
+#--------------------------
 # Investment defined until 2018
-hist_data_inv = {y: 0.0e3 for y in range(years[0]-60,years[0])}
+hist_data_inv = {y: 0.0 for y in range(start_world, start_of_scenario)}
 # Decommissioning defined until 2018
-hist_data_dec = {y: 0.0e3 for y in range(years[0] - 60, years[0])}
+hist_data_dec = {y: 0.0 for y in range(start_world, start_of_scenario)}
 # Historical needed Capacity
 hist_data_capa = {}
-hist_data_capa[2019] = 9.4e3
+# Source Chiffres clés des Energie renouvelables 2023 - SDES - https://www.statistiques.developpement-durable.gouv.fr/edition-numerique/chiffres-cles-energies-renouvelables-2023/
+hist_data_inv.update({2005: 3.52, 2006: 7.10, 2007: 16.40, 2008: 64.96, 2009: 254.95, 2010: 856.00, 2011: 1762.31, 2012: 1117.23, 2013: 660.30, 2014: 958.73, 2015: 911.59, 2016: 583.27, 2017: 916.98, 2018: 907.28, 2019: 982.87, 2020: 1201.83, 2021: 2834.73, 2022: 2384.50}) # En MW
+# Source CINEASTE/data/source/Solaire_Evolution_puissance_inst - reférence : SDES
+hist_data_capa.update({2009: 70, 2010: 276, 2011: 1015, 2012: 2612, 2013: 3642, 2014: 4285, 2015: 5185, 2016: 6056, 2017: 6679, 2018: 7567, 2019: 8466, 2020: 9399, 2021: 10551, 2022: 13343, 2023: 15870 }) 
 
 # Set data
 pt_ren_pv.set_historic_data('CAPA',hist_data_capa)
@@ -109,7 +115,7 @@ pt_ren_pv.set_historic_data('INV',hist_data_inv)
 pt_ren_pv.set_historic_data('DEC',hist_data_dec)
 
 # Maximum investment
-pt_ren_pv.set_InvMax({y: 100e3 for y in years})
+pt_ren_pv.set_InvMax({y: 100e3 for y in range(years.start-1, years.stop-1)})
 
 #--------------------------
 # Final object
