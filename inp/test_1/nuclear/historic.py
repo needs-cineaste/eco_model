@@ -13,7 +13,8 @@ pt_nuclear_hist.set_isPvar({y: False for y in years}) # Capacity is exogeneous
 
 # Capa installed
 P = {}
-df = pd.read_csv('../../../data/formatted/nuclear/capa_hist.dat', delim_whitespace=True, names=['Year', '40y', '50y', '60y'])
+# df = pd.read_csv('../../../data/formatted/nuclear/capa_hist.dat', delim_whitespace=True, names=['Year', '40y', '50y', '60y'])
+df = pd.read_csv('../../../data/formatted/nuclear/capa_hist.dat', sep='\s+', names=['Year', '40y', '50y', '60y'])
 filtered_df = df[(df['Year'] >= years[0]) & (df['Year'] <= years[len(years)-1])]
 if nuclear_hist_lifetime == 40:
     P = filtered_df.set_index('Year')[['40y']].to_dict()['40y']

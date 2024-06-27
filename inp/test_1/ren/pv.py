@@ -30,14 +30,46 @@ pv_lf_reshape = pd.DataFrame(np.array(pv_lf).reshape(-1, 7 * 24))
 
 if profil_weeks == 'average' or  profil_weeks == "M4" :
     # Select a random index from the filtered indices
-    pv_lf_random = pd.DataFrame()
+    pv_lf_new = pd.DataFrame()
     dict_pv_lf={}
     for y in years :
-        pv_lf_random = pd.DataFrame()
-        for week in range(number_of_mean_weeks):
-            pv_lf_random = pd.concat([pv_lf_random, pd.DataFrame([pv_lf_reshape.iloc[random.choice(np.where(group == week)[0])]])], ignore_index=True)
+        pv_lf_new = pd.DataFrame()
+        for w in range(number_of_mean_weeks):
+
+            # A random week inside each groups of the representative weeks is used
+            if ren_loadfactor == 'random':
+                pv_lf_new = pd.concat([pv_lf_new, pd.DataFrame([pv_lf_reshape.iloc[random.choice(np.where(group == w)[0])]])], ignore_index=True)
+            
+            # The maximum Load Factor of the week inside each groups of the representative weeks is used
+            elif ren_loadfactor == 'high':
+                # Find the index of the max load factor
+                index_sol = pv_lf_reshape.sum(axis=1).iloc[np.where(group == w)].idxmax()
+                # Concat with the new line
+                pv_lf_new = pd.concat([pv_lf_new, pd.DataFrame([pv_lf_reshape.iloc[index_sol]])], ignore_index=True)
+            
+            # The minimum Load Factor of the week inside each groups of the representative weeks is used
+            elif ren_loadfactor == 'low':
+                # Find the index of the min load factor
+                index_sol = pv_lf_reshape.sum(axis=1).iloc[np.where(group == w)].idxmin()
+                # Concat with the new line
+                pv_lf_new = pd.concat([pv_lf_new, pd.DataFrame([pv_lf_reshape.iloc[index_sol]])], ignore_index=True)
+            
+            # The "most medium" Load Factor of the week inside each groups of the representative weeks is used
+            elif ren_loadfactor == 'medium':
+                # Average of the serie
+                avg = pv_lf_reshape.sum(axis=1).iloc[np.where(group == w)].mean()
+                # Calculate abs difference with the average
+                absd = (pv_lf_reshape.sum(axis=1).iloc[np.where(group == w)] - avg).abs()
+                # Find the index of the minimum difference
+                index_sol = absd.idxmin()
+                # Concat with the new line
+                pv_lf_new = pd.concat([pv_lf_new, pd.DataFrame([pv_lf_reshape.iloc[index_sol]])], ignore_index=True)
+                            
+            else:
+                print('Choice to make for ren_loadfactor in [random,high,medium,low]... EXIT...')
+
         # Iterate over the DataFrame and populate the dictionary demand
-        dict_pv_lf_local = {(y,w,h): pv_lf_random.iloc[w-1,h-1]for w in weeks for h in hours}
+        dict_pv_lf_local = {(y,w,h): pv_lf_new.iloc[w-1,h-1]for w in weeks for h in hours}
         dict_pv_lf={**dict_pv_lf,**dict_pv_lf_local}
 
 elif profil_weeks == 'maxmin':

@@ -10,6 +10,9 @@ pt_gas_ccgt = prm_tech()
 pt_gas_ccgt.set_isPvar({y: True for y in years}) # Capacity is endogeneous
 pt_gas_ccgt.set_isEvar({(y,w,h): True for y in years for w in weeks for h in hours}) # Energy is endogeneous
 
+pt_gas_ccgt.set_A({(y,w): 0.8 for y in years for w in weeks}) # Availability factor
+
+
 # CO2 emission rate - g/kWh
 # https://www.acer.europa.eu/sites/default/files/documents/Official_documents/Acts_of_the_Agency/Opinions/Documents/ACERs%20Opinion%2022-2019%20examples%20of%20calculation.pdf
 co2 = 374
@@ -75,7 +78,7 @@ for y in range(years[0] - 60, years[0]):
 hist_data_capa = {}
 #source : https://fr.wikipedia.org/wiki/Centrale_thermique_de_Bouchain + https://assets.rte-france.com/analyse-et-donnees/2023-11/2023-10-16-chapitre3-production-stockage-electricite.pdf (P46)
 hist_data_inv.update({2005 : 790 , 2006 : 0 , 2007 : 0 , 2008 : 0 ,2009 : 412 , 2010 : 860 + 424 + 489 , 2011 : 435 + 408 + 430 , 2012 : 465 , 2013 : 413 + 465 , 2014 : 0 , 2015 : 0 , 2016 : 605 , 2022 : 446 , 2023 : 0 })
-hist_data_capa.update({2019 : 6196 , 2020 : 6196 , 2021: 6196 , 2022 : 6196, 2023 : 30000, 2024 : 30000}) # 6642
+hist_data_capa.update({2019 : 6196 , 2020 : 6196 , 2021: 6196 , 2022 : 6196, 2023 : 6642, 2024 : 6642}) # 6642
 
 # Set data
 pt_gas_ccgt.set_historic_data('CAPA',hist_data_capa)
@@ -83,7 +86,7 @@ pt_gas_ccgt.set_historic_data('INV',hist_data_inv)
 pt_gas_ccgt.set_historic_data('DEC',hist_data_dec)
 
 # Maximum investment
-pt_gas_ccgt.set_InvMax({y: 2e3 for y in range(years.start-1, years.stop-1)})
+pt_gas_ccgt.set_InvMax({y: 100e3 for y in range(years.start-1, years.stop-1)})
 
 #--------------------------
 # Final object

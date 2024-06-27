@@ -15,7 +15,7 @@ class prm_tech:
         self._C02 = None   # CO2 emission factor [g/kWh]
 
         self._C   = None   # Curtailment C[y,h]
-        self._A   = None   # Availabilité of dispatchable techno A[y,h] between 0 and 1
+        self._A   = None   # Availabilité of dispatchable techno A[y,w] between 0 and 1
                             # 0 means all units are off
                             # 1 means all units are full operationnal
         self._hist_capa = None # Historical capacity data

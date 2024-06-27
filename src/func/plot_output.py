@@ -88,11 +88,11 @@ if Display_output['production']:
         )
 
     fig.add_trace(go.Scatter(x=x,y=vals,mode='lines',line=dict(width=2.0),opacity=0.50,name='Demand'))
-    fig.update_layout(title=f"Parc Optimal - PRODUCTION",
+    fig.update_layout(title=f"Optimal Mix - PRODUCTION",
                      yaxis_title='Production (MWh [1h step])',
                      xaxis_title=None,
                      #barmode='stack',
-                     width=1000, height=500,margin=dict(l=50,r=150,b=50,t=50),font=dict(size=18),annotations=annotations,
+                     width=800,height=500,margin=dict(l=50,r=150,b=50,t=50),font=dict(size=18),annotations=annotations,
                     xaxis = dict(tickvals=[],ticktext=[],showticklabels=False),
                     shapes=ligneH)
     fig.show()
@@ -155,7 +155,7 @@ if Display_output['stock']:
         )
     # Mise à jour du layout de la figure
     fig.update_layout(
-        title="Parc Optimal - STORAGE STEP",
+        title="Optimal Mix - STORAGE STEP",
         yaxis_title='Stock (MWh [1h step])',
         xaxis_title=None,
         xaxis = dict(tickvals=[],ticktext=[],showticklabels=False),
@@ -163,8 +163,7 @@ if Display_output['stock']:
          #   tickvals=[i * 168 + 84 for i in range(nombre_week_affichage)],
           #  ticktext=annotations_text,tickangle=-90
         #),
-        width=1000,
-        height=500,
+        width=800,height=500,
         margin=dict(l=50, r=150, b=50, t=50),  # Augmentation de la marge inférieure pour l'axe x
         font=dict(size=18),
         annotations=annotations,
@@ -189,10 +188,10 @@ if Display_output['capacity']:
     fig.update_layout(title="Capacity",
                      yaxis_title='MW',xaxis_title="",
                      #barmode='stack',
-                     width=1000,height=500,margin=dict(l=50,r=150,b=30,t=50),font=dict(size=18))
+                     width=800,height=500,margin=dict(l=50,r=150,b=30,t=50),font=dict(size=18))
     fig.show()
 
-print()
+    print()
 
 ############################################
 # Mix electrique en Energie
@@ -222,15 +221,46 @@ if Display_output['mix']:
             fig.add_trace(go.Bar(x=x, y=vals, name=name))
     # Mettre à jour le layout du diagramme
     fig.update_layout(
-        title="Parc Optimal - Production en Pourcentage",
-        yaxis_title='Mix électrique (%)',
-        xaxis_title='Année de simulation',
+        title="Optimal Mix (%)",
+        yaxis_title='Production (%)',
+        xaxis_title='',
         barmode='stack',  # Empiler les barres
-        width=1000,
-        height=500,
+        width=800,height=500,
         margin=dict(l=50, r=150, b=50, t=50),
         font=dict(size=18),
         xaxis=dict(tickvals=list(years), ticktext=[str(year) for year in years], showticklabels=True)
     )
     # Afficher le diagramme
     fig.show()
+    print()
+
+############################################
+# Mix electrique en Energie
+###########################################
+
+if Display_output['inv_dec_capa'] :
+    n_of_hist_data_to_plot = 0
+    for i,t in techno.items():
+        if t.get_eco().is_cap() :
+            n_of_hist_data_to_plot += 1
+    fig = make_subplots(cols=2,rows=n_of_hist_data_to_plot)
+    n = 1
+    fig = make_subplots(cols=2,rows=n_of_hist_data_to_plot)
+    for i,t in techno.items():
+        if t.get_eco().is_cap() :
+            historic_data_inv  = t.get_tech().get_Inv()
+            historic_data_capa = t.get_tech().get_P()
+            historic_data_dec = t.get_tech().get_Dec()
+            name=t.get_name() + ' ' + t.get_title()
+            x,y = list(historic_data_inv.keys()),list(historic_data_inv.values())
+            fig.add_trace(go.Bar(name=name + " INV", x=x, y=y), col=1, row=n)
+            x,y = list(historic_data_dec.keys()),[-historic_data_dec[y-1] for y in years]
+            fig.add_trace(go.Bar(name=name + " DEC", x=x, y=y), col=1, row=n)
+            x,y = list(historic_data_capa.keys()),list(historic_data_capa.values())
+            fig.add_trace(go.Scatter(name=name + " CAPA", x=x, y=y), col=2, row=n)
+            n += 1
+    fig.update_layout(title_text="Investissement, Dec, Capa",
+                          height=n_of_hist_data_to_plot*200, width=800,
+                          margin=dict(l=50,r=150,b=30,t=50),font=dict(size=15))
+    fig.show()
+    print()

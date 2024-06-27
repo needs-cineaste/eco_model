@@ -7,8 +7,11 @@
 #--------------------------
 
 pt_nuclear_new = prm_tech()
+
 pt_nuclear_new.set_isPvar({y: True for y in years}) # Capacity is endogeneous
 pt_nuclear_new.set_isEvar({(y,w,h): True for y in years for w in weeks for h in hours}) # Energy is endogeneous
+
+pt_nuclear_new.set_A({(y,w): 0.80 for y in years for w in weeks}) # Availability factor
 
 #--------------------------
 # Economical parameters
@@ -76,7 +79,7 @@ pt_nuclear_new.set_historic_data('INV',hist_data_inv)
 pt_nuclear_new.set_historic_data('DEC',hist_data_dec)
 
 # Maximum investment
-pt_nuclear_new.set_InvMax({y: 1e3 for y in range(years.start-1, years.stop-1)})
+pt_nuclear_new.set_InvMax({y: 100e3 for y in range(years.start-1, years.stop-1)})
 
 
 #--------------------------

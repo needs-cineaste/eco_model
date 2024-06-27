@@ -41,7 +41,7 @@ class prm_storage:
         self._mode = mode
     def set_EC(self, EC):
         self._EC = EC
-    def set_level(self, llev):
+    def set_level(self, lev):
         self._level = lev
     def set_level_max(self, levmax):
         self._levelmax = levmax
