@@ -189,6 +189,10 @@ if Display_output['capacity']:
                      yaxis_title='MW',xaxis_title="",
                      #barmode='stack',
                      width=800,height=500,margin=dict(l=50,r=150,b=30,t=50),font=dict(size=18))
+    # Add vertical line
+    fig.add_shape(type='line',x0=start_of_scenario-1,y0=0,x1=start_of_scenario-1,y1=60e3,line=dict(color='Red', width=1.0, dash='dot'))
+
+    
     fig.show()
 
     print()

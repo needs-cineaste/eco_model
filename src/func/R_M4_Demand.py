@@ -65,10 +65,10 @@ def R_M4_Demand(number_of_mean_weeks, dem,print_info=True,methode_distance_clust
             group_reindexed+=[group_reindexed[i-1]+1]
     if print_info :
         #Affichage du dendrogramme
-        #plt.figure(figsize=(10, 5))
+        plt.figure(figsize=(8.6, 3.5))
         plt.title('Dendrogramme CAH')
         dendrogram(np.array(Z))
-        plt.gca().set_ylim(bottom=1)  # éviter les valeurs négatives dans l'échelle logarithmique
+        plt.gca().set_ylim(bottom=1e7)  # éviter les valeurs négatives dans l'échelle logarithmique
         plt.yscale('log')
         plt.xlabel('dem')
         plt.ylabel('Distance')
@@ -76,14 +76,15 @@ def R_M4_Demand(number_of_mean_weeks, dem,print_info=True,methode_distance_clust
                     label=f"seuil pour {number_of_mean_weeks} dem réprésentatives")
         plt.legend()
         plt.show()
+        print()
         #Figure distance - nombre de semaine représentative
         fig = go.Figure()
         fig.add_trace(go.Scatter(x= np.arange(51,0,-1), y=distance,mode='lines'))
         fig.add_vline(x=number_of_mean_weeks, line_dash='dash', line_color='red',
-                      annotation_text=f"{number_of_mean_weeks} dem réprésentatives", annotation_position='top')
-        fig.update_layout(title="Analyse distance/nombre de dem représentatifs Methode de " + str(methode_distance_cluster), yaxis_title='Distance de la dernière fusion',
+                      annotation_text=f"{number_of_mean_weeks} rpresentative weeks", annotation_position='top')
+        fig.update_layout(title= str(methode_distance_cluster), yaxis_title='Distance',
                           xaxis_title="Nombre de dem représentatifs",
-                    width=1000,height=500,margin=dict(l=50,r=150,b=30,t=50),font=dict(size=18))
+                    width=750,height=350,margin=dict(l=50,r=150,b=30,t=50),font=dict(size=15))
         fig.show()
         print("Les regroupements de dem avec " + str(number_of_mean_weeks) + " dem représentatives se font suivant : " + str(group_reindexed))
     return np.array(group_reindexed)

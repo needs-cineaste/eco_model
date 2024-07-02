@@ -24,7 +24,6 @@ if nuclear_hist_lifetime == 60:
     P = filtered_df.set_index('Year')[['60y']].to_dict()['60y']
 
 pt_nuclear_hist.set_P(copy.deepcopy(P))
-
 pt_nuclear_hist.set_isEvar({(y,w,h): True for y in years for w in weeks for h in hours})  # Energy is endogeneous
 
 #--------------------------

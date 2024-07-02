@@ -28,6 +28,8 @@ if Display_input['cout_techno_fix'] :
     fig.update_layout(title="Fix Cost Evolution" ,yaxis_title='Total Cost [€/MW/y]',xaxis_title="years",
                       width=750,height=350,margin=dict(l=50,r=150,b=30,t=50),font=dict(size=15))
     fig.show()
+    pio.write_image(fig, current_path + '/fig/cout_techno_fix.pdf', format='pdf', scale=2)
+
 
 print()
 
@@ -41,6 +43,7 @@ if Display_input['cout_techno_tot'] :
     fig.update_layout(title="Total cost for the year - " + str(year) ,yaxis_title='Total Cost [€/MW/y]',xaxis_title="Use (h/y)",
                       width=750,height=350,margin=dict(l=50,r=150,b=30,t=50),font=dict(size=15))
     fig.show()
+    pio.write_image(fig, current_path + '/fig/cout_techno_tot.pdf', format='pdf', scale=2)
 
 print()
 
@@ -71,6 +74,7 @@ if Display_input['hist_data_inv'] :
                       height=n_of_hist_data_to_plot*180, width=750,
                       margin=dict(l=50,r=150,b=30,t=50),font=dict(size=15))
     fig.show()   
+    pio.write_image(fig, current_path + '/fig/hist_data_inv.pdf', format='pdf', scale=2)
 
 print()
 
@@ -86,6 +90,7 @@ if Display_input['carbon cost'] :
     fig.update_layout(title="CO2",yaxis_title='CO2 Cost [€/MWh]',xaxis_title="year",
                       width=750,height=350,margin=dict(l=50,r=150,b=30,t=50),font=dict(size=15))
     fig.show()
+    pio.write_image(fig, current_path + '/fig/carbon_cost.pdf', format='pdf', scale=2)
 
 print()
 
@@ -100,6 +105,7 @@ if Display_input['week_repr_demand']:
                       width=750,height=350,margin=dict(l=50,r=150,b=30,t=50),font=dict(size=15))
  
     fig.show()   
+    pio.write_image(fig, current_path + '/fig/week_repr_demand.pdf', format='pdf', scale=2)
 
 print()
 
@@ -110,10 +116,11 @@ if Display_input['week_repr_pv'] :
     for index, row in pv_lf_new.iterrows():
         fig.add_trace(go.Scatter(x=pv_lf_new.columns,y=row,mode='lines',name=f'week {index}'))
  
-    fig.update_layout(title="year - " + str(year),yaxis_title='Facteur de charge PV',xaxis_title=f"hour for {number_of_mean_weeks} weeks",
+    fig.update_layout(title="year - " + str(year),yaxis_title='Load Factor PV',xaxis_title=f"hour for {number_of_mean_weeks} weeks",
                       width=750,height=350,margin=dict(l=50,r=150,b=30,t=50),font=dict(size=15))
  
     fig.show()   
+    pio.write_image(fig, current_path + '/fig/week_repr_pv.pdf', format='pdf', scale=2)
 
 print()
 
@@ -125,10 +132,11 @@ if Display_input['week_repr_wof'] :
     for index, row in wof_lf_new.iterrows():
         fig.add_trace(go.Scatter(x=wof_lf_new.columns,y=row,mode='lines',name=f'week {index}'))
  
-    fig.update_layout(title="year - " + str(year),yaxis_title='Facteur de charge eolien offshore',xaxis_title=f"hour for {number_of_mean_weeks} weeks",
+    fig.update_layout(title="year - " + str(year),yaxis_title='Load Factor WOFF',xaxis_title=f"hour for {number_of_mean_weeks} weeks",
                       width=750,height=350,margin=dict(l=50,r=150,b=30,t=50),font=dict(size=15))
  
     fig.show()   
+    pio.write_image(fig, current_path + '/fig/week_repr_wof.pdf', format='pdf', scale=2)
 
 print()
 
@@ -139,10 +147,11 @@ if Display_input['week_repr_won'] :
     for index, row in won_lf_new.iterrows():
         fig.add_trace(go.Scatter(x=won_lf_new.columns,y=row,mode='lines',name=f'week {index}'))
  
-    fig.update_layout(title="year - " + str(year),yaxis_title='Facteur de charge eolien onshore',xaxis_title=f"hour for {number_of_mean_weeks} weeks",
+    fig.update_layout(title="year - " + str(year),yaxis_title='Load Factor WON',xaxis_title=f"hour for {number_of_mean_weeks} weeks",
                       width=750,height=350,margin=dict(l=50,r=150,b=30,t=50),font=dict(size=15))
  
     fig.show()   
+    pio.write_image(fig, current_path + '/fig/week_repr_won.pdf', format='pdf', scale=2)
 
 print()
 
@@ -186,6 +195,7 @@ if Display_input['analyse_fc_data'] :
     font=dict(color="Red", size=12))
 
     fig.show()
+    pio.write_image(fig, current_path + '/fig/analyse_fc_data_1.pdf', format='pdf', scale=2)
 
     print()
 
@@ -208,6 +218,7 @@ if Display_input['analyse_fc_data'] :
     font=dict(color="Red", size=12))
 
     fig.show()
+    pio.write_image(fig, current_path + '/fig/analyse_fc_data_2.pdf', format='pdf', scale=2)
 
     print()
 
@@ -230,5 +241,22 @@ if Display_input['analyse_fc_data'] :
     font=dict(color="Red", size=12))
  
     fig.show()
+    pio.write_image(fig, current_path + '/fig/analyse_fc_data_3.pdf', format='pdf', scale=2)
+    
+    print()
+    
+################# Nuclear Historic ###########
+
+if Display_input['nuclear hist'] : 
+
+    fig = go.Figure()
+
+    for col in filtered_df.columns[1:]:
+        fig.add_trace(go.Scatter(x=filtered_df['Year'],y=filtered_df[col],mode='lines',name='nuclear ' + col))
+
+    fig.update_layout(title='Capacity of nuclear historic', yaxis_title='MW',xaxis_title='',
+                      width=750,height=350,margin=dict(l=50,r=150,b=30,t=50),font=dict(size=15), showlegend=True)
+    fig.show()
+    pio.write_image(fig, current_path + '/fig/nuclear_hist.pdf', format='pdf', scale=2)
     
     print()

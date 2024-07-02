@@ -12,6 +12,7 @@ pt_hydro_step_c.set_isPvar({y: False for y in years})
 
 P = {y: 5394 for y in years} # 5 GW 
 pt_hydro_step_c.set_P(copy.deepcopy(P))
+pt_hydro_step_c.set_isEvar({(y,w,h): True for y in years for w in weeks for h in hours})  # Energy is endogeneous
 
 #--------------------------
 # Economical parameters - STEP Charge
@@ -55,6 +56,7 @@ pe_hydro_step_c.set_var_mi(data_var_mi)
 pt_hydro_step_d = prm_tech()
 
 pt_hydro_step_d.set_isPvar({y: False for y in years})
+pt_hydro_step_d.set_isEvar({(y,w,h): True for y in years for w in weeks for h in hours})  # Energy is endogeneous
 
 P = {y: 5394 for y in years} # 5 GW 
 pt_hydro_step_d.set_P(copy.deepcopy(P))
@@ -105,6 +107,10 @@ ps_hydro_step.set_level_start(250e3)
 
 ps_hydro_step.set_efficiency_discharge(0.85)
 ps_hydro_step.set_efficiency_charge(0.85)
+
+ps_hydro_step.set_rup(0.99) # 99%Pn / hour
+ps_hydro_step.set_rdo(0.99) # 99%Pn / hour
+
 
 #--------------------------
 # Final object

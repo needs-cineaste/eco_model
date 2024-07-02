@@ -62,6 +62,8 @@ pe_gas_ccgt.set_var_mi(data_var_mi)
 #--------------------------
 
 ps_gas_ccgt = prm_dispatchable()
+ps_gas_ccgt.set_rup(0.99) # 99%Pn / hour
+ps_gas_ccgt.set_rdo(0.99) # 99%Pn / hour
 
 #--------------------------
 # Historical Capacities
