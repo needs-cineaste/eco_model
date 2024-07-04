@@ -12,7 +12,12 @@ class prm_storage:
         self._efficiency_charge = None
         self.loss=None #pourcetage de perte à l'année
 
-       # Add dynamics variables ...
+        self._rup  = 1    # Ramping up dynamic [0,1]
+                          # 0 means not flexible up
+                          # 1 means 100%Pn/h
+        self._rdo  = 1    # Ramping down dynamic [0,1]
+                          # 0 means not flexible down
+                          # 1 means 100%Pn/h
 
 # --------------------- End Of Constructor ----------------------------------------------------------------------------
 
@@ -36,12 +41,18 @@ class prm_storage:
     def get_efficiency_discharge(self):
         return self._efficiency_discharge
 
+    # get methods
+    def get_rup(self):
+        return self._rup
+    def get_rdo(self):
+        return self._rdo
+    
     # Set methods
     def set_mode(self, mode):
         self._mode = mode
     def set_EC(self, EC):
         self._EC = EC
-    def set_level(self, llev):
+    def set_level(self, lev):
         self._level = lev
     def set_level_max(self, levmax):
         self._levelmax = levmax
@@ -53,4 +64,9 @@ class prm_storage:
         self._efficiency_charge = eff
     def set_efficiency_discharge(self, eff):
         self._efficiency_discharge = eff
-        
+
+    # set methods
+    def set_rup(self, rup):
+        self._rup = rup
+    def set_rdo(self, rdo):
+        self._rdo = rdo

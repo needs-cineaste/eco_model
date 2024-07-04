@@ -1,27 +1,19 @@
 TO DO 
 
-0. Hydraulique Lake 
+- Ajouter le LCOE dans output
+- Ajouter LOL
+- Mieux gérer le taux d'actu?
+- Rajouter la valeur résiduelle
 
-    - Faire du vrai exogène => Pas de random pour le choix des semaiens type mais moyennes 
+- Curtailment?
 
-1. Storage
-    - var_ES peut etre négatif
-    - Pas de contrainte de level => calculé a posteriori pour voir si OK
-
-2. Curtailment
-
-3. Import/Export
+- Import/Export
     - FLORE => Exogène
+- Ramping up and down
+- Nuke historique => Meilleure gestion Facteur de dispo
+- Nuke New => Meilleure gestion Facteur de dispo 
+- Quel est le coût du compress pour le storage ??
+- Verifier l'algo reconstitution cout fix capex via le nucléaire historique
 
-5. Ramping up and down
-    - OK ?
-
-6. Réduction du nombre de variables 
-    - Nombre de semaines représentatives
-        - Passer de 52 semaines à X (4?, 13?)
-        
-7. Rajouter les facteurs de charge !
-
-8. Quel est le coût du compress pour le storage ??
-
-9. Verifier l'algo reconstitution cout fix capex via le nucléaire historique
+- Non chiffré dans les couts 
+    - Raccordement ENR 
