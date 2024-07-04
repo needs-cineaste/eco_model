@@ -76,8 +76,21 @@ class prm_tech:
     def set_isEvar(self, isEvar):
         self._isEvar = isEvar
 
-    def set_P(self, P):
-        self._P = P
+    def set_P(self, P, yd_l=None):
+        if P is None:
+            self._P = { y : 0 for y in years_world}
+        elif isinstance(P, list):
+            if len(P) == 1:
+                self._P ={ y : P[0] for y in years_world}
+            elif len(P) > 1:
+                self._P = create_val_dictionary(P, yd_l)
+            else:
+                print("error : P=[] is not good")
+        elif isinstance(P, dict):
+            self._P = P
+        else:
+            self._P ={ y : P for y in years_world}
+    
     def set_Inv(self, Inv):
         self._Inv = Inv
     def set_InvMax(self, InvMax):

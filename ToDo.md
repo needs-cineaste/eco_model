@@ -14,3 +14,6 @@ TO DO
 - Nuke New => Meilleure gestion Facteur de dispo 
 - Quel est le coût du compress pour le storage ??
 - Verifier l'algo reconstitution cout fix capex via le nucléaire historique
+
+- Non chiffré dans les couts 
+    - Raccordement ENR 
