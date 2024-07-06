@@ -1,8 +1,7 @@
-name_simulation = 'nuke_rupdown_0.01'
-
 ############################
 # Imports...
 ############################
+display_plots = False 
 
 # Libraries
 path_src = '../../src/'
@@ -10,6 +9,9 @@ path_src = '../../src/'
 with open(path_src + 'raw_import.py') as file:
     script_content = file.read()
 exec(script_content)
+
+rup_argv = float(sys.argv[1])
+name_simulation = 'nuke_rupdown_' + str(rup_argv)
 
 current_path = os.getcwd()
 os.makedirs(current_path + '/out/' + name_simulation + '/input', exist_ok=True)
@@ -35,6 +37,9 @@ loadfactor_won = 'medium' # choices : 'low' - 'medium' - 'high' - 'random'
 loadfactor_wof = 'medium' # choices : 'low' - 'medium' - 'high' - 'random'
 loadfactor_pv  = 'medium' # choices : 'low' - 'medium' - 'high' - 'random'
 
+# hydro fatal LF
+loadfactor_ror = 'medium'
+
 # REN costs
 occ_won = 'low' # 'medium' or 'low'
 occ_wof = 'low' # 'medium' or 'low'
@@ -44,7 +49,7 @@ nuclear_hist_lifetime = 50 # either 40, 50 or 60
 
 ramping = True
 
-nuke_new_rup = 0.03 # %Pn/hour
+nuke_new_rup = rup_argv # %Pn/hour
 nuke_new_rdo = nuke_new_rup
 
 ############################
@@ -258,13 +263,20 @@ techno = {} # dict of output for each year : techno_d[index] => techno dispatcha
 #---------------------------
 
 index = 1
+
 with open('nuclear/historic.py') as file:
     script_content = file.read()
 exec(script_content)
+
 with open('nuclear/new.py') as file:
     script_content = file.read()
 exec(script_content)
+
 with open('gas/ccgt.py') as file:
+    script_content = file.read()
+exec(script_content)
+
+with open('gas/ccgt_bioch4.py') as file:
     script_content = file.read()
 exec(script_content)
 
@@ -689,27 +701,50 @@ for i, t in tqdm(techno.items(), desc="Processing", unit="Techno"):
 ################################################
 # OUTPUT
 ################################################
+year_start = 2060
+week_start = 1
+nombre_week_affichage = 4
 
+Display_output = {}
+Display_output['production']   = True
+Display_output['stock']        = True
+Display_output['capacity']     = True
+Display_output['mix']          = True
+Display_output['inv_dec_capa'] = True
 
-print('rup,Objective value,',end='')
-for i,t in techno.items():
-    print(t.get_title() + ',',end='')
-print()
-print(nuke_new_rup,',',opt_model.objective_value,',',end='')
-for i,t in techno.items():
-    print(t.get_tech().get_P()[2060],',',end='')
+with open(path_src + 'func/plot_output.py') as file:
+    script_content = file.read()
+exec(script_content)
 
-for rup = 0.001
-Dans le fichier 
-rup, obj, capa_all, energy_all
+filename = 'out/out.dat'
 
+if not os.path.exists(filename):
+	with open(filename, 'w') as file:
+		file.write('rup,obj,')
+		for i,t in techno.items():
+			n = t.get_title()
+			file.write('P_' + n + ',')
+		for i,t in techno.items():
+			if not t.get_type()=='storage':
+				n = t.get_title()
+				file.write('E_' + n + ',')
+		file.write('\n')	
 
+with open(filename, 'a') as file:
+	file.write(str(rup_argv) + ',')
+	file.write(str(format(opt_model.objective_value, ".2e")) + ',')
+	for i,t in techno.items():
+		file.write(str(t.get_tech().get_P()[years[-1]]) + ',')
 
-
-
-
-
-
-
-
+	total_per_year = 0
+	for t in techno.values():
+		vals_list = [t.get_tech().get_E()[(years[-1], w, h)]*weight_week_dict[w] for w in weeks for h in hours]
+		total_per_year += sum(vals_list)
+	for i, t in techno.items():
+		if not t.get_type()=='storage' :
+			vals_list = [t.get_tech().get_E()[(years[-1], w, h)]*weight_week_dict[w] for w in weeks for h in hours]
+			total_val = sum(vals_list)
+			percentage_val = (total_val / total_per_year) * 100  # Calculer le pourcentage
+			file.write(str(percentage_val) + ',')
+	file.write('\n')
 

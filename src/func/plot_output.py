@@ -25,7 +25,7 @@ if Display_output[key] :
                 x += [h + i * 168 for h in hours]
                 week += 1
             fig_output[key].add_trace(go.Scatter(x=x,y=vals,stackgroup='one',line=dict(width=0.2),name=name))
-        
+
     for i,t in techno.items():
         if not t.get_title() == 'charge' :
             week = week_start
@@ -98,7 +98,8 @@ if Display_output[key] :
                      width=800,height=500,margin=dict(l=50,r=150,b=50,t=50),font=dict(size=18),annotations=annotations,
                     xaxis = dict(tickvals=[],ticktext=[],showticklabels=False),
                     shapes=ligneH)
-    fig_output[key].show()
+    if display_plots:
+        fig_output[key].show()
     fig_output[key].write_html(current_path + '/out/' + name_simulation + '/output' + '/' + key + '.html')
 
 ################################################
@@ -153,7 +154,8 @@ if Display_output[key] :
                 annotations=annotations,shapes=ligneH
             )
             # Affichage de la fig_output[key]ure
-            fig_output[key].show()
+            if display_plots:
+                fig_output[key].show()
             fig_output[key].write_html(current_path + '/out/' + name_simulation + '/output' + '/' + key + '.html')
 
 ################################################
@@ -171,9 +173,9 @@ if Display_output[key] :
     fig_output[key].update_layout(title="Capacity",yaxis_title='MW',xaxis_title="",width=800,height=500,margin=dict(l=50,r=150,b=30,t=50),font=dict(size=18))
     # Add vertical line
     fig_output[key].add_shape(type='line',x0=start_of_scenario-1,y0=0,x1=start_of_scenario-1,y1=60e3,line=dict(color='Red', width=1.0, dash='dot'))
-
-    
-    fig_output[key].show()
+ 
+    if display_plots:
+        fig_output[key].show()
     fig_output[key].write_html(current_path + '/out/' + name_simulation + '/output' + '/' + key + '.html')
 
 ############################################
@@ -186,22 +188,22 @@ if Display_output[key] :
     fig_output[key] = go.Figure()
     # Calculer les valeurs totales pour chaque année
     total_per_year = {year: 0 for year in years}
-    for year in years:
+    for y in years:
         for t in techno.values():
-            vals_list = [t.get_tech().get_E()[(year, week, h)] for week in weeks for h in hours]
-            total_per_year[year] += sum(vals_list)
+            vals_list = [t.get_tech().get_E()[(y, w, h)]*weight_week_dict[w] for w in weeks for h in hours]
+            total_per_year[y] += sum(vals_list)
     # Boucle sur les éléments du dictionnaire 'techno'
     for i, t in techno.items():
         if not t.get_type()=='storage' :
-            name = t.get_name() + ' ' + t.get_title()
-            x = [year for year in years]
+            n = t.get_name() + ' ' + t.get_title()
+            x = [y for y in years]
             vals = []  # Initialiser 'vals' pour chaque 'name'
-            for year in years:
-                vals_list = [t.get_tech().get_E()[(year, week, h)] for week in weeks for h in hours]
+            for y in years:
+                vals_list = [t.get_tech().get_E()[(y, w, h)]*weight_week_dict[w] for w in weeks for h in hours]
                 total_val = sum(vals_list)
-                percentage_val = (total_val / total_per_year[year]) * 100  # Calculer le pourcentage
+                percentage_val = (total_val / total_per_year[y]) * 100  # Calculer le pourcentage
                 vals.append(percentage_val)
-            fig_output[key].add_trace(go.Bar(x=x, y=vals, name=name))
+            fig_output[key].add_trace(go.Bar(x=x, y=vals, name=n))
     # Mettre à jour le layout du diagramme
     fig_output[key].update_layout(
         title="Optimal Mix (%)",
@@ -214,7 +216,8 @@ if Display_output[key] :
         xaxis=dict(tickvals=list(years), ticktext=[str(year) for year in years], showticklabels=True)
     )
     # Afficher le diagramme
-    fig_output[key].show()
+    if display_plots:
+        fig_output[key].show()
     fig_output[key].write_html(current_path + '/out/' + name_simulation + '/output' + '/' + key + '.html')
 
 ############################################
@@ -245,5 +248,6 @@ if Display_output[key] :
     fig_output[key].update_layout(title_text="Investissement, Dec, Capa",
                           height=n_of_hist_data_to_plot*200, width=800,
                           margin=dict(l=50,r=150,b=30,t=50),font=dict(size=15))
-    fig_output[key].show()
+    if display_plots:
+        fig_output[key].show()
     fig_output[key].write_html(current_path + '/out/' + name_simulation + '/output' + '/' + key + '.html')
