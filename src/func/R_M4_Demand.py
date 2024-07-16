@@ -76,11 +76,9 @@ def plot_dendrogram(Z, number_of_mean_weeks, distance, methode_distance_cluster)
         color = colors[i]
         fig.add_trace(go.Scatter(x=x, y=y, mode='lines', line=dict(color=color, width=2)))
 
-    fig.update_layout(title='Dendrogramme CAH',
-                      xaxis_title='dem',
-                      yaxis_title='Distance',
-                      yaxis=dict(type='log'),
-                      showlegend=False)
+    fig.update_layout(title='Dendrogramme CAH',xaxis_title='sem',yaxis_title='Distance',
+                      width=750, height=350,margin=dict(l=50, r=150, b=30, t=50),font=dict(size=15),
+                      yaxis=dict(type='log'),showlegend=False)
 
     # Ajouter la ligne horizontale pour le seuil
     threshold = (-Z[52-2-number_of_mean_weeks, 2]+ 3*Z[52-1-number_of_mean_weeks, 2])/4+Z[52-2-number_of_mean_weeks, 2]

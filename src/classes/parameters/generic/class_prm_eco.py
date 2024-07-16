@@ -15,6 +15,9 @@ class prm_eco:
         self._var_f    = None  # var fuel cost [€/MWh input]
         self._var_co2  = None  # var carbon cost [€/MWh i]
         self._var_mi   = None  # Misc var [€/MWh i] => Sum of other variable costs
+        
+        self._deco_cost = None # Decommisionning cost [€/MW]
+        
         self._lt       = None  # Life time of the technolog
 
 # --------------------- End Of Constructor ---------------------------------------------------------------------------    
@@ -76,6 +79,10 @@ class prm_eco:
         return self._var_co2
     def get_var_mi(self):
         return self._var_mi
+    
+    def get_deco_cost(self):
+        return self._deco_cost
+    
     def get_lt(self):
         return self._lt
     
@@ -234,7 +241,11 @@ class prm_eco:
             else:
                 print("error : var_mi=[] is not good")
         else:
-            self._var_mi ={ y :var_mi for y in years_world}        
+            self._var_mi ={ y :var_mi for y in years_world}      
+
+    def set_deco_cost(self, dc):
+        self._deco_cost = dc
+
 # --------------------- PRINT methods ---------------------------------------------------------------------------------
 
 #     def Print(self):
