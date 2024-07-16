@@ -1,7 +1,10 @@
 ############################
 # Imports...
 ############################
-display_plots = False 
+plot_input  = False
+plot_output = False
+print_m4    = False
+
 
 # Libraries
 path_src = '../../src/'
@@ -21,7 +24,6 @@ os.makedirs(current_path + '/out/' + name_simulation + '/output', exist_ok=True)
 # To change
 ############################
 
-
 number_of_mean_weeks = 4
 profil_weeks = 'M4'
 
@@ -39,13 +41,14 @@ loadfactor_pv  = 'medium' # choices : 'low' - 'medium' - 'high' - 'random'
 
 # hydro fatal LF
 loadfactor_ror = 'medium'
-
+    
 # REN costs
-occ_won = 'low' # 'medium' or 'low'
-occ_wof = 'low' # 'medium' or 'low'
-occ_pv  = 'low' # 'medium' or 'low'
+occ_won = 'medium' # 'medium' or 'low'
+occ_wof = 'medium' # 'medium' or 'low'
+occ_pv  = 'medium' # 'medium' or 'low'
 
 nuclear_hist_lifetime = 50 # either 40, 50 or 60
+nuclear_invest_max    = 100*1.650e3 # 1EPR/an
 
 ramping = True
 
@@ -233,7 +236,7 @@ elif profil_weeks == 'maxmin':
     demand_average = demand_average * demand_total / (demand_average_total * 52/number_of_mean_weeks)
 
 elif profil_weeks == 'M4' :
-    group=R_M4_Demand(number_of_mean_weeks, demand_reshape, print_info=False) # 'aff_analyse'= True pour l'aff des courbes d'analyse
+    group=R_M4_Demand(number_of_mean_weeks, demand_reshape, print_info=print_m4) # 'aff_analyse'= True pour l'aff des courbes d'analyse
     demand_average = demand_reshape.groupby(group).mean()
 
 else:

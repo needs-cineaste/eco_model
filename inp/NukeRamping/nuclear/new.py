@@ -24,6 +24,8 @@ pe_nuclear_new.set_r(r)
 lt = 60
 ct = 10 # construction time
 pe_nuclear_new.set_lt(lt)
+pe_nuclear_new.set_deco_cost(350e6/1e3) # 350e6 €/reactor
+
 
 # FIX CAPEX
 # https://www.usinenouvelle.com/article/cout-design-calendrier-les-nouveaux-reacteurs-nucleaires-epr2-d-edf-encore-flous.N2210775
@@ -79,7 +81,7 @@ pt_nuclear_new.set_historic_data('INV',hist_data_inv)
 pt_nuclear_new.set_historic_data('DEC',hist_data_dec)
 
 # Maximum investment
-pt_nuclear_new.set_InvMax({y: 1.650e3 for y in range(years.start-1, years.stop-1)})
+pt_nuclear_new.set_InvMax({y: nuclear_invest_max for y in range(years.start-1, years.stop-1)})
 
 
 #--------------------------
