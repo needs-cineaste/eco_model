@@ -2,7 +2,7 @@ class prm_eco:
 # --------------------- Constructor ----------------------------------------------------------------------------------    
     def __init__(self):
         self._r        = None  # Discount rate
-        self._fix_cap  = None  # Annual CAPEX [€/MW/y]
+        self._fix_cap  = None  # Annual CAPEX [€/MW/y] => Here, CAPEX is Total Investment Cost = OCC + IDC (overnight + interest) converted into annuity payment
         self._fix_dep  = None  # annuel Depreciation [€/MW/y] if there is no CAPEX
         self._fix_ref  = None  # Refurbishment investment [€/MW/y]
 
@@ -26,6 +26,10 @@ class prm_eco:
 #        capex = tic * ( ( r[y] * ( 1 + r[y] )**dt ) / ( (1 + r[y])**dt - 1) ) 
 #        self._fix_cap = capex
 
+    # This function uses OCC and calculate TIC = OCC + IDC 
+    # IDC a calculated from an approximation where Wk i constant and the formula is then direclty calculated
+    # This function can be used with ct = 1 to neglect IDC...
+    # Then, this function calculate annuity from the usual formula.
     def calculate_capex_dict(self,occ,ct,dt,r,yd_l=None) : #occ_l : liste data capex ou element simple | yd_l : list des année connu (si necessaire) | ct : temps de construction
         #| dt = temps de vie
         if occ is None :
