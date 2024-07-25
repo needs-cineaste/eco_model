@@ -16,6 +16,7 @@ TO DO
         - Possible de mettre un r variable en fonction de y ?
     - Check la valeur résiduelle
     - Check cost Charge/Discharge STEP
+    - Ajouter un cout réseau au ENR => Fonction de la Capa installée
 
 - Electrolyseur
     - Endogène en P + courbe d'apprentissage et voir type de technologie
@@ -33,6 +34,8 @@ TO DO
         - Rajouter Pmin
     - Quel est le coût du compress pour le storage ??
     - Verifier l'algo reconstitution cout fix capex via le nucléaire historique
+    - ENR
+        - Synchroniser le WOF et le WON
 
 - Non chiffré dans les couts 
     - Raccordement ENR 

@@ -94,6 +94,8 @@ pe_ren_won.set_deco_cost(3e5) # pif
 data_occ_years = [2020,2030,2040,2050,2060] # Available data for data
 if occ_won == 'medium':
     data_occ       = [1300e3, 1200e3 , 1050e3, 900e3, 900e3] # CAPEX en €/MW sans intercalaire
+elif occ_won == 'high':
+    data_occ       = [1300e3, 1300e3 , 1300e3, 1300e3, 1300e3] # CAPEX en €/MW sans intercalaire
 elif occ_won == 'low':
     data_occ       = [1300e3, 800e3 , 600e3, 550e3, 550e3] # CAPEX en €/MW sans intercalaire
 pe_ren_won.calculate_capex_dict(data_occ,ct,lt,pe_ren_won.get_r(),data_occ_years)
@@ -150,7 +152,7 @@ pt_ren_won.set_historic_data('INV',hist_data_inv)
 pt_ren_won.set_historic_data('DEC',hist_data_dec)
 
 # Maximum investment
-pt_ren_won.set_InvMax({y: 4e3 for y in range(years.start-1, years.stop-1)})
+pt_ren_won.set_InvMax({y: won_invest_max for y in range(years.start-1, years.stop-1)})
 
 #--------------------------
 # Final object

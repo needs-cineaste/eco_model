@@ -57,40 +57,19 @@ if plot_output:
             if week > number_of_mean_weeks:
                 week = 1
                 year += 1
-            vals += [demand_dict [(year,week,h)]for h in hours]
+            vals += [demand_dict[(year,week,h)]for h in hours]
             x += [h + i * 168 for h in hours]
             # Ajout du texte de l'annotation pour l'axe x
             annotations_text.append(f"Y : {year}, W : {week}<br> Poids :198 {weight_week_dict[week]}")
             # Ajout de lignes horizontales en pointillé pour chaque semaine
             ligneH.append(dict(
-                type="line",
-                x0=i * 168,
-                y0=100000 ,
-                x1=i * 168,
-                y1=0,
-                xref='x',
-                yref='y',
-                line=dict(
-                    color="red",
-                    width=2,
-                    dash="dot",
-                )))
+                type="line",x0=i * 168,y0=100000 ,x1=i * 168,y1=0,xref='x',yref='y',line=dict(color="red",width=2,dash="dot",)))
             week+=1
         # Création des annotations pour l'axe x
         annotations = []
         for i, text in enumerate(annotations_text):
             annotations.append(
-                dict(
-                    x=i * 168 + 84,
-                    y=-0.1,
-                    xref="x",
-                    yref="paper",
-                    text=text,
-                    showarrow=False,
-                    xanchor='center',
-                    font=dict(size=15)
-                )
-            )
+                dict(x=i * 168 + 84,y=-0.1,xref="x",yref="paper",text=text,showarrow=False,xanchor='center',font=dict(size=15)))
     
         fig_output[key].add_trace(go.Scatter(x=x,y=vals,mode='lines',line=dict(width=2.0),opacity=0.50,name='Demand'))
         fig_output[key].update_layout(title=f"Optimal Mix - PRODUCTION",
@@ -103,7 +82,8 @@ if plot_output:
         if Display_output[key]:
             fig_output[key].show()
         fig_output[key].write_html(current_path + '/out/' + name_simulation + '/output' + '/' + key + '.html')
-    
+
+
     ################################################
     # Plotting Stock
     ################################################
@@ -204,6 +184,48 @@ if plot_output:
                 for y in years:
                     vals_list = [t.get_tech().get_E()[(y, w, h)]*weight_week_dict[w] for w in weeks for h in hours]
                     total_val = sum(vals_list)
+                    vals.append(total_val)
+                fig_output[key].add_trace(go.Bar(x=x, y=vals, name=n))
+        # Mettre à jour le layout du diagramme
+        fig_output[key].update_layout(
+            title="Optimal Mix (%)",
+            yaxis_title='Production (%)',
+            xaxis_title='',
+            barmode='stack',  # Empiler les barres
+            width=800,height=500,
+            margin=dict(l=50, r=150, b=50, t=50),
+            font=dict(size=18),
+            xaxis=dict(tickvals=list(years), ticktext=[str(year) for year in years], showticklabels=True)
+        )
+        # Afficher le diagramme
+        if Display_output[key]:
+            fig_output[key].show()
+        fig_output[key].write_html(current_path + '/out/' + name_simulation + '/output' + '/' + key + '.html')
+
+    
+    ############################################
+    # Mix electrique en Energie
+    ###########################################
+    key = 'mix_frac'
+    if Display_output[key] :
+    
+        # Initialiser la fig_output[key]ure
+        fig_output[key] = go.Figure()
+        # Calculer les valeurs totales pour chaque année
+        total_per_year = {year: 0 for year in years}
+        for y in years:
+            for t in techno.values():
+                vals_list = [t.get_tech().get_E()[(y, w, h)]*weight_week_dict[w] for w in weeks for h in hours]
+                total_per_year[y] += sum(vals_list)
+        # Boucle sur les éléments du dictionnaire 'techno'
+        for i, t in techno.items():
+            if not t.get_type()=='storage' :
+                n = t.get_name() + ' ' + t.get_title()
+                x = [y for y in years]
+                vals = []  # Initialiser 'vals' pour chaque 'name'
+                for y in years:
+                    vals_list = [t.get_tech().get_E()[(y, w, h)]*weight_week_dict[w] for w in weeks for h in hours]
+                    total_val = sum(vals_list)
                     percentage_val = (total_val / total_per_year[y]) * 100  # Calculer le pourcentage
                     vals.append(percentage_val)
                 fig_output[key].add_trace(go.Bar(x=x, y=vals, name=n))
@@ -243,7 +265,7 @@ if plot_output:
                 name=t.get_name() + ' ' + t.get_title()
                 x,y = list(historic_data_inv.keys()),list(historic_data_inv.values())
                 fig_output[key].add_trace(go.Bar(name=name + " INV", x=x, y=y), col=1, row=n)
-                x,y = list(historic_data_dec.keys()),[-historic_data_dec[y-1] for y in years]
+                x,y = list(historic_data_dec.keys()),[-historic_data_dec[y] for y in historic_data_dec.keys()]
                 fig_output[key].add_trace(go.Bar(name=name + " DEC", x=x, y=y), col=1, row=n)
                 x,y = list(historic_data_capa.keys()),list(historic_data_capa.values())
                 fig_output[key].add_trace(go.Scatter(name=name + " CAPA", x=x, y=y), col=2, row=n)
