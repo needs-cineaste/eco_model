@@ -25,9 +25,14 @@ ct = 1 # construction time
 pe_stock_bat_c.set_lt(lt)
 pe_stock_bat_c.set_deco_cost(0) # don't know
 
-# FIX OM
+# Data OCC
 data_occ_years = [2020,2030,2040,2050,2060] # Available data for data
-data_occ       = [740 , 550, 427, 370, 370] # €/MW/an
+if occ_bat == 'medium':
+    data_occ = [740e3 ,550e3 , 427e3, 370e3, 370e3] # CAPEX en €/MW sans intercalaire
+elif occ_bat == 'high':
+    data_occ = [840e3, 674.5e3 , 546.5e3, 456e3, 456e3] # CAPEX en €/MW sans intercalaire
+elif occ_bat == 'low':
+    data_occ = [642e3, 427.5e3 , 308e3, 284e3, 284e3] # CAPEX en €/MW sans intercalaire
 pe_stock_bat_c.calculate_capex_dict(data_occ,ct,lt,pe_stock_bat_c.get_r(),data_occ_years)
 
 # FIX DEP
@@ -73,7 +78,7 @@ pt_stock_bat_c.set_historic_data('INV',hist_data_inv)
 pt_stock_bat_c.set_historic_data('DEC',hist_data_dec)
 
 # Maximum investment
-pt_stock_bat_c.set_InvMax({y: 10e3 for y in range(years.start-1, years.stop-1)})
+pt_stock_bat_c.set_InvMax({y: bat_invest_max for y in range(years.start-1, years.stop-1)})
 
 
 #----------------------------------------------------------------
@@ -98,10 +103,15 @@ ct = 1 # construction time
 pe_stock_bat_d.set_lt(lt)
 pe_stock_bat_d.set_deco_cost(0) # don't know
 
-# FIX OM
+# Data OCC
 data_occ_years = [2020,2030,2040,2050,2060] # Available data for data
-data_occ       = [740 ,550 , 427, 370, 370] # €/MW/an
-pe_stock_bat_d.set_fix_om(data_occ,data_occ_years)
+if occ_bat == 'medium':
+    data_occ = [740e3 ,550e3 , 427e3, 370e3, 370e3] # CAPEX en €/MW sans intercalaire
+elif occ_bat == 'high':
+    data_occ = [840e3, 674.5e3 , 546.5e3, 456e3, 456e3] # CAPEX en €/MW sans intercalaire
+elif occ_bat == 'low':
+    data_occ = [642e3, 427.5e3 , 308e3, 284e3, 284e3] # CAPEX en €/MW sans intercalaire
+
 pe_stock_bat_d.calculate_capex_dict(data_occ,ct,lt,pe_stock_bat_d.get_r(),data_occ_years)
 
 # FIX DEP
@@ -146,7 +156,7 @@ pt_stock_bat_d.set_historic_data('INV',hist_data_inv)
 pt_stock_bat_d.set_historic_data('DEC',hist_data_dec)
 
 # Maximum investment
-pt_stock_bat_d.set_InvMax({y: 10e3 for y in range(years.start-1, years.stop-1)})
+pt_stock_bat_d.set_InvMax({y: bat_invest_max for y in range(years.start-1, years.stop-1)})
 
 #--------------------------
 # Specific parameters for Storage

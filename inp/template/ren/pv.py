@@ -95,6 +95,8 @@ pe_ren_pv.set_deco_cost(3e5) # web
 data_occ_years = [2020,2030,2040,2050,2060] # Available data for data => PV "au sol" !!
 if occ_pv == 'medium':
     data_occ = [747e3, 597e3, 517e3, 477e3, 477e3] # CAPEX en €/MW sans intercalaire
+elif occ_pv == 'high':
+    data_occ = [747e3, 612e3, 562e3, 527e3, 527e3] # CAPEX en €/MW sans intercalaire
 elif occ_pv == 'low':
     data_occ = [747e3, 597e3, 517e3, 477e3, 477e3] # CAPEX en €/MW sans intercalaire
 pe_ren_pv.calculate_capex_dict(data_occ,ct,lt,pe_ren_pv.get_r(),data_occ_years)
@@ -151,7 +153,7 @@ pt_ren_pv.set_historic_data('INV',hist_data_inv)
 pt_ren_pv.set_historic_data('DEC',hist_data_dec)
 
 # Maximum investment
-pt_ren_pv.set_InvMax({y: 10e3 for y in range(years.start-1, years.stop-1)})
+pt_ren_pv.set_InvMax({y: pv_invest_max for y in range(years.start-1, years.stop-1)})
 
 #--------------------------
 # Final object

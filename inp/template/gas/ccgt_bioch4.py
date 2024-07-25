@@ -29,11 +29,11 @@ pe_gas_ccgt_bioch4.set_deco_cost(0) # don't know
 #data_occ_years = None # Available data for data
 #data_occ       = 1000e3 # CAPEX en €/MW sans intercalaire - Limiter le déploiement avant 2040!! 
 
-data_occ_years = [2020  ,2030  ,2034  ,2035  ,2040  ,2050  ,2060]
-data_occ       = [10e6,10e6,10e6,1000e3,1000e3,1000e3,1000e3] # €/MWh PIF 
-
+data_occ_years = None # Available data for data
+data_occ       = 1.00e6 # OCC en €/MW au pif
 
 pe_gas_ccgt_bioch4.calculate_capex_dict(data_occ,ct,lt,pe_gas_ccgt_bioch4.get_r(),data_occ_years)
+
 # FIX DEP
 data_fix_dep = None
 pe_gas_ccgt_bioch4.set_fix_dep(data_fix_dep)
@@ -48,7 +48,7 @@ data_var_om   = 4.2 # €/MWh - https://www.eia.gov/electricity/annual/html/epa_
 pe_gas_ccgt_bioch4.set_var_om(data_var_om)
 # VAR Fuel
 data_var_f_year = [2020,2030,2040,2050,2060]
-data_var_f      = [100,100 ,100 ,100 ,100] # €/MWh PIF 
+data_var_f      = [200,200 ,200 ,200 ,200] # Page 939 méthane de synthèse €/MWh 
 pe_gas_ccgt_bioch4.set_var_f(data_var_f,data_var_f_year)
 # VAR CO2
 data_var_co2 = None
@@ -92,7 +92,7 @@ pt_gas_ccgt_bioch4.set_historic_data('INV',hist_data_inv)
 pt_gas_ccgt_bioch4.set_historic_data('DEC',hist_data_dec)
 
 # Maximum investment
-pt_gas_ccgt_bioch4.set_InvMax({y: 3e3 for y in range(years.start-1, years.stop-1)})
+pt_gas_ccgt_bioch4.set_InvMax({y: ccgt_bioch4_invest_max for y in range(years.start-1, years.stop-1)})
 
 #--------------------------
 # Final object

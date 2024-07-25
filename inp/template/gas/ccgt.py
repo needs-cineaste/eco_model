@@ -90,7 +90,7 @@ pt_gas_ccgt.set_historic_data('INV',hist_data_inv)
 pt_gas_ccgt.set_historic_data('DEC',hist_data_dec)
 
 # Maximum investment
-pt_gas_ccgt.set_InvMax({y: 3e3 for y in range(years.start-1, years.stop-1)})
+pt_gas_ccgt.set_InvMax({y: ccgt_bioch4_invest_max for y in range(years.start-1, years.stop-1)})
 
 #--------------------------
 # Final object

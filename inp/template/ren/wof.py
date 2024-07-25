@@ -96,6 +96,8 @@ pe_ren_wof.set_deco_cost(3e5) # pif
 data_occ_years = [2020,2030,2040,2050,2060] # Available data for data => Eolien en mer "posé" !!
 if occ_wof == 'medium':
     data_occ = [2600e3,1700e3,1500e3,1300e3,1300e3] # CAPEX en €/MW sans intercalaire
+elif occ_wof == 'high':
+    data_occ = [2600e3,2100e3,2000e3,1900e3,1900e3] # CAPEX en €/MW sans intercalaire
 elif occ_wof == 'low':
     data_occ = [2600e3,1300e3,1000e3,750e3,750e3] # CAPEX en €/MW sans intercalaire
 pe_ren_wof.calculate_capex_dict(data_occ,ct,lt,pe_ren_wof.get_r(),data_occ_years)
@@ -149,7 +151,7 @@ pt_ren_wof.set_historic_data('INV',hist_data_inv)
 pt_ren_wof.set_historic_data('DEC',hist_data_dec)
 
 # Maximum investment
-pt_ren_wof.set_InvMax({y: 4e3 for y in range(years.start-1, years.stop-1)})
+pt_ren_wof.set_InvMax({y: wof_invest_max for y in range(years.start-1, years.stop-1)})
 
 #--------------------------
 # Final object
