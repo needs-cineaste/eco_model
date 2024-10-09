@@ -53,7 +53,7 @@ data_var_f    = 50 # €/MWh - Data to adjust !  Reference to find for the long 
 pe_gas_ccgt.set_var_f(data_var_f)
 # VAR CO2
 data_co2_year = [2000,2020,2050]
-data_var_co2  = [0,cost_co2_2020*co2*1e-6*1e3,cost_co2_2050*co2*1e-6*1e3] # €/MWh
+data_var_co2  = [0,cost_co2_2020*co2*1e-6*1e3,cost_co2_2050*co2*1e-6*1e3] # => 374 €/MWh
 pe_gas_ccgt.set_var_co2(data_var_co2, data_co2_year)
 # VAR MI
 data_var_mi   = None # €/MWh
