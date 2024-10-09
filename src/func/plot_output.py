@@ -153,10 +153,10 @@ if plot_output:
             x    = list(t.get_tech().get_P().keys())
             vals = list(t.get_tech().get_P().values())
             fig_output[key].add_trace(go.Scatter(x=x,y=vals,mode='lines',line=dict(width=2.0),name=name))
-        fig_output[key].update_layout(title="Capacity",yaxis_title='MW',xaxis_title="",width=800,height=500,margin=dict(l=50,r=150,b=30,t=50),font=dict(size=18))
         # Add vertical line
         fig_output[key].add_shape(type='line',x0=start_of_scenario-1,y0=0,x1=start_of_scenario-1,y1=60e3,line=dict(color='Red', width=1.0, dash='dot'))
-     
+        fig_output[key].update_layout(title="Capacity",yaxis_title='MW',xaxis_title="",xaxis=dict(range=[2024,2060]),yaxis=dict(range=[0,126e3]),                                      width=1200,height=400,margin=dict(l=50,r=150,b=30,t=50),font=dict(size=18))
+
         if Display_output[key]:
             fig_output[key].show()
         fig_output[key].write_html(current_path + '/out/' + name_simulation + '/output' + '/' + key + '.html')
@@ -188,11 +188,11 @@ if plot_output:
                 fig_output[key].add_trace(go.Bar(x=x, y=vals, name=n))
         # Mettre à jour le layout du diagramme
         fig_output[key].update_layout(
-            title="Optimal Mix (%)",
-            yaxis_title='Production (%)',
+            title="Optimal Mix",
+            yaxis_title='Production (GW)',
             xaxis_title='',
             barmode='stack',  # Empiler les barres
-            width=800,height=500,
+            width=1200,height=400,
             margin=dict(l=50, r=150, b=50, t=50),
             font=dict(size=18),
             xaxis=dict(tickvals=list(years), ticktext=[str(year) for year in years], showticklabels=True)

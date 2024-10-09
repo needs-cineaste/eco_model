@@ -101,6 +101,10 @@ class prm_tech:
         self._E = E
     def set_LF(self, LF):
         self._LF = LF
+    def set_LFmax(self, LFmax):
+        self._LFmax = LFmax
+    def set_LFmin(self, LFmin):
+        self._LFmin = LFmin
     def set_CO2(self, CO2):
         self._CO2 = CO2
     def set_C(self, C):

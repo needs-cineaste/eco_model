@@ -13,6 +13,9 @@ pt_nuclear_new.set_isEvar({(y,w,h): True for y in years for w in weeks for h in 
 
 pt_nuclear_new.set_A({(y,w): 0.80 for y in years for w in weeks}) # Availability factor
 
+pt_nuclear_new.set_LFmax({(y,w,h): 0.95 for y in years for w in weeks for h in hours})
+pt_nuclear_new.set_LFmin({(y,w,h): 0.10 for y in years for w in weeks for h in hours})
+
 #--------------------------
 # Economical parameters
 #--------------------------

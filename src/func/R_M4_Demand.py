@@ -82,8 +82,8 @@ def plot_dendrogram(Z, number_of_mean_weeks, distance, methode_distance_cluster)
 
     # Ajouter la ligne horizontale pour le seuil
     threshold = (-Z[52-2-number_of_mean_weeks, 2]+ 3*Z[52-1-number_of_mean_weeks, 2])/4+Z[52-2-number_of_mean_weeks, 2]
-    print(Z[52-2-number_of_mean_weeks, 2])
-    print(Z[52-1-number_of_mean_weeks, 2])
+    #print(Z[52-2-number_of_mean_weeks, 2])
+    #print(Z[52-1-number_of_mean_weeks, 2])
     fig.add_hline(y=threshold, line_dash='dash', line_color='red',
                   annotation_text=f"seuil pour {number_of_mean_weeks} dem réprésentatives", annotation_position='top right')
 

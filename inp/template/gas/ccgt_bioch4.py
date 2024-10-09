@@ -44,11 +44,11 @@ pe_gas_ccgt_bioch4.set_fix_om(data_fix_om)
 data_fix_mi   = None # €/MW/an
 pe_gas_ccgt_bioch4.set_fix_mi(data_fix_mi)
 # VAR OM
-data_var_om   = 4.2 # €/MWh - https://www.eia.gov/electricity/annual/html/epa_08_04.html
+data_var_om   = 120  # Page 939 méthane de synthèse €/MWh 
 pe_gas_ccgt_bioch4.set_var_om(data_var_om)
 # VAR Fuel
 data_var_f_year = [2020,2030,2040,2050,2060]
-data_var_f      = [200,200 ,200 ,200 ,200] # Page 939 méthane de synthèse €/MWh 
+data_var_f      = [200,180 ,170 ,170 ,170] # Page 939 méthane de synthèse €/MWh 
 pe_gas_ccgt_bioch4.set_var_f(data_var_f,data_var_f_year)
 # VAR CO2
 data_var_co2 = None

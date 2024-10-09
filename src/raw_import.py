@@ -20,8 +20,7 @@ import copy
 from collections import Counter
 from scipy.cluster.hierarchy import dendrogram, linkage, fcluster
 
+from itertools import product
+
 import docplex.mp.model as cpx
 from docplex.mp.progress import ProgressListener
-
-
-
