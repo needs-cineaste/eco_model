@@ -2,7 +2,8 @@
 Problématique
 # ######################################################
 
-
+    - Quel est l'évolution optimale du nucléaire historique ?
+    - Quel est la sensibilité de l'évolution du parc historique en fonction du cout de grand carénage ? 
 
 # ######################################################
 TO DO 
