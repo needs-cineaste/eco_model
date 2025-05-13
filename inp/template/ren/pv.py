@@ -93,12 +93,13 @@ pe_ren_pv.set_deco_cost(3e5) # web
 
 # FIX CAPEX
 data_occ_years = [2020,2030,2040,2050,2060] # Available data for data => PV "au sol" !!
-if occ_pv == 'medium':
-    data_occ = [747e3, 597e3, 517e3, 477e3, 477e3] # CAPEX en €/MW sans intercalaire
-elif occ_pv == 'high':
+if occ_pv   == 'high':
     data_occ = [747e3, 612e3, 562e3, 527e3, 527e3] # CAPEX en €/MW sans intercalaire
-elif occ_pv == 'low':
+elif occ_pv == 'medium':
     data_occ = [747e3, 597e3, 517e3, 477e3, 477e3] # CAPEX en €/MW sans intercalaire
+elif occ_pv == 'low':
+    data_occ = [747e3, 557e3, 497e3, 427e3, 427e3] # CAPEX en €/MW sans intercalaire
+
 pe_ren_pv.calculate_capex_dict(data_occ,ct,lt,pe_ren_pv.get_r(),data_occ_years)
 # FIX DEP
 data_fix_dep = None
