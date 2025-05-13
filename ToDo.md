@@ -2,7 +2,8 @@
 Problématique
 # ######################################################
 
-
+    - Quel est l'évolution optimale du nucléaire historique ?
+    - Quel est la sensibilité de l'évolution du parc historique en fonction du cout de grand carénage ? 
 
 # ######################################################
 TO DO 
@@ -17,21 +18,15 @@ TO DO
 # Nouveau nucléaire
 
     - Meilleure gestion Facteur de dispo 
-    - P ne peut prendre que des valeurs type n * P_EPR
-    - Créer deux nuke new. Un manoeuvrnant un autre quesi fixe => Faire une fonction dump ? 
+    - P ne peut prendre que des valeurs type n * P_EPR ?
+    - Créer deux nuke new. Un manoeuvrnant un autre quesi fixe
+        => Faire une fonction dump ? 
     - Rajouter Pmin
 
-# Technologies 
+# Interconnexion
 
-    - Biogaz => OK via prix gaz exogène
-    - Hydrogène
-    - Interconnexions (P exogène + E annuelle exogène)
-
-# Demande
-
-    - Quel évolution de la demande ? 
-    - Prise en compte d'une certaine flexibilité de la demande
-        - Par exemple, sensibilité du calcul de référence par rapport à un "applatissement" de la demande
+    - Interconnexions (P exogène + E annuelle exogène = comme le ROR)
+    - Warning -> Respecter les semaines types avec le profil interco associé
 
 # Ecretement
 
@@ -39,10 +34,17 @@ TO DO
     - Quel prix doit-on implémenter pour var_EC ? 
     - Comment dispatcher l'écretement entre PV / WOF / WON
 
+# Demande
+
+    - Quel évolution de la demande ? 
+
+    - Dans un second temps 
+        - Prise en compte d'une certaine flexibilité de la demande
+        - Par exemple, sensibilité du calcul de référence par rapport à un "applatissement" de la demande
+
 # ENR
 
     - Synchroniser le WOF et le WON
-
 
 # Cout de système
 
@@ -53,11 +55,6 @@ TO DO
 
     - Intégrer les équations 
 
-# Interconnexion
-
-    - On traite de manière exogène
-    - Warning -> Respecter les semaines types avec le profil interco associé
-
 # Fonction objectif 
 
     - Prise en compte de la valeur résiduelle à la fin du scénario
@@ -67,13 +64,18 @@ TO DO
 
 # STEP
 
-    - Check cost Charge/Discharge
+    - Check cost Charge/Discharge (cf RTE)
 
 # Output
 
     - Ajouter le prix de l'élec via cout marginal de la techno marginal
     - Ajouter le calcul du Levelized Cost of Mix Elec (€/MWh)
     - Ajouter le Lost Of Load (LOL)
+
+# Technologies 
+
+    - Biogaz => OK via prix gaz exogène
+    - Hydrogène
 
 # Calcul Monte Carlo ? 
 
