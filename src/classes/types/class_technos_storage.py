@@ -3,7 +3,7 @@ class Techno_Storage(Techno):
     def __init__(self, tname, ttype, tech_params, eco_params, prm_storage):
         super().__init__('storage', tname, ttype, prm_eco, prm_storage)
         
-        self._prm_spec = prm_prm_storage
+        self._prm_spec = prm_storage
 # --------------------- End Of Constructor ----------------------------------------------------------------------------
         
 
